@@ -4,8 +4,10 @@ public class EmptyStatement extends Statement {
 
     private final char keyword = ';';
 
+    public EmptyStatement() {}
+
     @Override
     public String toString() {
-        return String.valueOf(keyword);
+        return keyword + "";
     }
 }

@@ -38,6 +38,6 @@ public class FunctionDeclaration {
 
     @Override
     public String toString() {
-        return "FunctionDeclaration(" + type.toString() + " " + identifier.toString() + "(" + (hasParameterList() ? parameterList.toString() : "") + ")" + ")";
+        return type.toString() + " " + identifier.toString() + " ( " + (hasParameterList() ? parameterList.toString() : "") + " );";
     }
 }

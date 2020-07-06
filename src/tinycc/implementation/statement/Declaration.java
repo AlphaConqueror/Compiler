@@ -1,9 +1,10 @@
-package tinycc.implementation.utils;
+package tinycc.implementation.statement;
 
 import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.utils.Identifier;
 
-public class Declaration {
+public class Declaration extends Statement {
 
     private final Type type;
     private final Identifier identifier;
@@ -38,7 +39,7 @@ public class Declaration {
 
     @Override
     public String toString() {
-        return "Declaration(Type(" + type.toString() + ") Identifier(" + identifier + ")"
-                + (hasExpression() ? " = Expression(" + expression.toString() + ")" : "") + ")";
+        return type.toString() + " " + identifier.toString()
+                + (hasExpression() ? " = " + expression.toString() : "") + ";";
     }
 }

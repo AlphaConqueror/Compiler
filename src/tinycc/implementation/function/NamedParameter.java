@@ -23,6 +23,6 @@ public class NamedParameter {
 
     @Override
     public String toString() {
-        return "NamedParameter(" + type.toString() + " " + identifier.toString() + ")";
+        return type.toString() + " " + identifier.toString();
     }
 }

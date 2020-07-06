@@ -16,6 +16,6 @@ public class ExpressionStatement extends Statement {
 
     @Override
     public String toString() {
-        return "ExpressionStatement(" + expression.toString() + ")";
+        return expression.toString() + ";";
     }
 }

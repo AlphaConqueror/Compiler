@@ -4,8 +4,8 @@ public class Identifier {
 
     private final String identifier;
 
-    public Identifier(char[] identifier) {
-        this.identifier = identifier.toString();
+    public Identifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getIdentifier() {
@@ -14,6 +14,6 @@ public class Identifier {
 
     @Override
     public String toString() {
-        return "Identifier(" + identifier + ")";
+        return identifier;
     }
 }

@@ -1,16 +1,20 @@
 package tinycc.implementation.expression;
 
-import tinycc.logic.BinaryOperator;
+import tinycc.implementation.utils.BinaryOperator;
 
 public class BinaryExpression extends Expression {
 
-    private final Expression firstExpression, secondExpression;
     private final BinaryOperator binaryOperator;
+    private final Expression firstExpression, secondExpression;
 
-    public BinaryExpression(Expression firstExpression, Expression secondExpression, BinaryOperator binaryOperator) {
+    public BinaryExpression(BinaryOperator binaryOperator, Expression firstExpression, Expression secondExpression) {
+        this.binaryOperator = binaryOperator;
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
-        this.binaryOperator = binaryOperator;
+    }
+
+    public BinaryOperator getBinaryOperator() {
+        return binaryOperator;
     }
 
     public Expression getFirstExpression() {
@@ -21,12 +25,8 @@ public class BinaryExpression extends Expression {
         return secondExpression;
     }
 
-    public BinaryOperator getBinaryOperator() {
-        return binaryOperator;
-    }
-
     @Override
     public String toString() {
-        return "BinaryExpression(" + firstExpression.toString() + " " + binaryOperator.toString() + " " + secondExpression.toString() + ")";
+        return "(" + firstExpression.toString() + " " + binaryOperator.toString() + " " + secondExpression.toString() + ")";
     }
 }

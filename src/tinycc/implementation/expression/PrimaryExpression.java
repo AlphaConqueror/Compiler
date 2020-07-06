@@ -2,6 +2,7 @@ package tinycc.implementation.expression;
 
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
+import tinycc.implementation.type.StringLiteral;
 import tinycc.implementation.utils.Identifier;
 
 public class PrimaryExpression extends Expression {
@@ -9,7 +10,7 @@ public class PrimaryExpression extends Expression {
     private Character characterConstant;
     private Identifier identifier;
     private Integer integerConstant;
-    private String stringLiteral;
+    private StringLiteral stringLiteral;
     private Expression expression;
 
     public PrimaryExpression(Character characterConstant) {
@@ -24,9 +25,8 @@ public class PrimaryExpression extends Expression {
         this.integerConstant = integerConstant;
     }
 
-    public PrimaryExpression(Character[] stringLiteral) {
-        for(Character character : stringLiteral)
-            this.stringLiteral += character.getCharacter();
+    public PrimaryExpression(StringLiteral stringLiteral) {
+        this.stringLiteral = stringLiteral;
     }
 
     public PrimaryExpression(Expression expression) {
@@ -45,7 +45,7 @@ public class PrimaryExpression extends Expression {
         return integerConstant;
     }
 
-    public String getStringLiteral() {
+    public StringLiteral getStringLiteral() {
         return stringLiteral;
     }
 
@@ -55,7 +55,7 @@ public class PrimaryExpression extends Expression {
 
     @Override
     public String toString() {
-        String out = "null";
+        String out = null;
 
         if(characterConstant != null)
             out = characterConstant + "";
@@ -64,10 +64,10 @@ public class PrimaryExpression extends Expression {
         else if(integerConstant != null)
             out = integerConstant + "";
         else if(stringLiteral != null)
-            out = stringLiteral;
+            out = stringLiteral.toString();
         else if(expression != null)
             out = expression.toString();
 
-        return "PrimaryExpression(" + out + ")";
+        return out;
     }
 }

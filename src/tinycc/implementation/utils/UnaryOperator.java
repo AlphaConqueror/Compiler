@@ -2,7 +2,7 @@ package tinycc.implementation.utils;
 
 public enum  UnaryOperator {
 
-    POINT_TO("*"), ADDRESS_OF("&"), SIZE_OF("sizeof");
+    POINT_TO("*"), ADDRESS_OF("&"), SIZE_OF("sizeof"), NOT("¬");;
 
     private final String identifier;
 
@@ -13,6 +13,7 @@ public enum  UnaryOperator {
     public String getIdentifier() {
         return identifier;
     }
+
 
     @Override
     public String toString() {

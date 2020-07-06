@@ -2,19 +2,21 @@ package tinycc.implementation.type;
 
 public class Integer extends Type {
 
-    private final int integer;
+    private final java.lang.Integer integer;
 
-    public Integer(int integer, int pointerGrade) {
+    public Integer(java.lang.Integer integer) {
         this.integer = integer;
-        setPointerGrade(pointerGrade);
     }
 
-    public int getInteger() {
+    public java.lang.Integer getInteger() {
         return integer;
     }
 
     @Override
     public String toString() {
-        return "Integer(" + integer + ")";
+        if(integer == null)
+            return "int";
+
+        return integer + "";
     }
 }

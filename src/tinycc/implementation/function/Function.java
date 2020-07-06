@@ -46,7 +46,7 @@ public class Function {
 
     @Override
     public String toString() {
-        return "Function(" + type.toString() + " " + identifier.toString() + "(" + (hasNamedParameterList() ? namedParameterList.toString() : "") + ")"
-                + block.toString() + ")";
+        return type.toString() + " " + identifier.toString() + " ( " + (hasNamedParameterList() ? namedParameterList.toString() : "") + " ) "
+                + block.toString();
     }
 }

@@ -1,42 +1,40 @@
 package tinycc.implementation.statement;
 
-import tinycc.implementation.utils.Declaration;
-
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Block extends Statement {
 
-    //TODO: Check if {@link Declaration} is a Statement or not.
-
-    private final List<Object> objects;
+    private final List<Statement> statements;
 
     public Block() {
-        this.objects = new LinkedList<>();
+        this.statements = new LinkedList<>();
     }
 
-    public Block addStatement(Declaration statement) {
-        objects.add(statement);
+    public Block addStatement(Statement statement) {
+        statements.add(statement);
 
         return this;
     }
 
-    public Block addDeclaration(Declaration declaration) {
-        objects.add(declaration);
+    public Block addStatements(Collection<Statement> statements) {
+        for(Statement statement : statements)
+            addStatement(statement);
 
         return this;
     }
 
-    public List<Object> getObjects() {
-        return objects;
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     @Override
     public String toString() {
         String block = "{\n";
 
-        for(Object objects : objects)
-            block += objects.toString() + "\n";
+        for(Statement statement : statements)
+            block += statement.toString() + "\n";
 
         return block + "}";
     }

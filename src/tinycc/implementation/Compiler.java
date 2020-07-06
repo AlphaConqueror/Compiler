@@ -1,12 +1,12 @@
 package tinycc.implementation;
 
-import java.io.PrintStream;
-
 import tinycc.diagnostic.Diagnostic;
+import tinycc.logic.Formula;
 import tinycc.parser.ASTFactory;
 import tinycc.parser.Lexer;
 import tinycc.parser.Parser;
-import tinycc.logic.Formula;
+
+import java.io.PrintStream;
 
 /**
  * The main compiler class.
@@ -19,6 +19,7 @@ import tinycc.logic.Formula;
 public class Compiler {
 
 	Diagnostic diagnostic;
+	private final ASTFactory astFactory;
 
 	/**
 	 * Initializes the compiler class with the given diagnostic module
@@ -28,6 +29,7 @@ public class Compiler {
 	 */
 	public Compiler(final Diagnostic diagnostic) {
 		this.diagnostic = diagnostic;
+		this.astFactory = new AST();
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class Compiler {
 	 * @see ASTFactory
 	 */
 	public ASTFactory getASTFactory() {
-		throw new UnsupportedOperationException("TODO: implement this");
+		return astFactory;
 	}
 
 	/**

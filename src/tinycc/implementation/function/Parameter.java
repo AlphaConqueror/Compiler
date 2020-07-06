@@ -17,8 +17,20 @@ public class Parameter {
         this.identifier = identifier;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public boolean hasIdentifier() {
+        return identifier != null;
+    }
+
+    public Identifier getIdentifier() {
+        return identifier;
+    }
+
     @Override
     public String toString() {
-        return "Parameter(" + type.toString() + " " + identifier.toString() + ")";
+        return type.toString() + (hasIdentifier() ? " " + identifier.toString() : "");
     }
 }

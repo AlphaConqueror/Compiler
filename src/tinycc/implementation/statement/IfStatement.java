@@ -5,38 +5,38 @@ import tinycc.implementation.expression.Expression;
 public class IfStatement extends Statement {
 
     private final Expression condition;
-    private final Statement trueStatement;
-    private Statement falseStatement; //optional
+    private final Statement consequence;
+    private Statement alternative; //optional
 
-    public IfStatement(Expression condition, Statement trueStatement) {
+    public IfStatement(Expression condition, Statement consequence) {
         this.condition = condition;
-        this.trueStatement = trueStatement;
+        this.consequence = consequence;
     }
 
-    public IfStatement(Expression condition, Statement trueStatement, Statement falseStatement) {
+    public IfStatement(Expression condition, Statement consequence, Statement alternative) {
         this.condition = condition;
-        this.trueStatement = trueStatement;
-        this.falseStatement = falseStatement;
+        this.consequence = consequence;
+        this.alternative = alternative;
     }
 
     public Expression getCondition() {
         return condition;
     }
 
-    public Statement getTrueStatement() {
-        return trueStatement;
+    public Statement getConsequence() {
+        return consequence;
     }
 
-    public boolean hasFalseStatement() {
-        return falseStatement != null;
+    public boolean hasAlternative() {
+        return alternative != null;
     }
 
-    public Statement getFalseStatement() {
-        return falseStatement;
+    public Statement getAlternative() {
+        return alternative;
     }
 
     @Override
     public String toString() {
-        return "if(" + condition.toString() + ")\n" + trueStatement.toString() + (hasFalseStatement() ? "\nelse\n" + falseStatement.toString() : "");
+        return "if ( " + condition.toString() + " )\n" + consequence.toString() + (hasAlternative() ? "\nelse\n" + alternative.toString() : "");
     }
 }
