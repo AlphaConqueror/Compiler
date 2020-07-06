@@ -4,6 +4,7 @@ set -eu
 SELF="$0"
 BASEDIR="${SELF%/*}"
 
+# shellcheck disable=SC2142
 alias mars='java -jar "$BASEDIR/../libs/mars.jar" "$@"'
 
 if [ "$#" = 0 ]; then

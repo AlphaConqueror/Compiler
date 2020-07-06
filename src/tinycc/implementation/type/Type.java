@@ -8,6 +8,16 @@ package tinycc.implementation.type;
  */
 public abstract class Type {
 
+	private int pointerGrade = 0;
+
+	public void setPointerGrade(int pointerGrade) {
+		this.pointerGrade = pointerGrade;
+	}
+
+	public int getPointerGrade() {
+		return pointerGrade;
+	}
+
 	/**
 	 * Creates a string representation of this type.
 	 *
@@ -16,5 +26,4 @@ public abstract class Type {
 	 */
 	@Override
 	public abstract String toString();
-
 }
