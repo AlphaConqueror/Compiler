@@ -23,7 +23,9 @@ public class IfStatement extends Statement {
 
         this.condition.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         this.consequence.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
-        this.alternative.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
+
+        if(this.alternative != null)
+            this.alternative.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
     }
 
     public Expression getCondition() {

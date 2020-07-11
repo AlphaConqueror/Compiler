@@ -11,7 +11,8 @@ public class ReturnStatement extends Statement {
     public ReturnStatement(Expression result) {
         this.result = result;
 
-        this.result.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+        if(this.result != null)
+            this.result.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public boolean hasResult() {

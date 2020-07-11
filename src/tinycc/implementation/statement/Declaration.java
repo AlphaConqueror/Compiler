@@ -31,7 +31,9 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         this.expression = expression;
 
         this.addEnvironmentalDeclaration(this);
-        this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        if(this.expression != null)
+            this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     private void checkForDuplicate(Identifier identifier) {
