@@ -8,6 +8,8 @@ public class AssertStatement extends Statement {
 
     public AssertStatement(Expression condition) {
         this.condition = condition;
+
+        this.condition.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public Expression getCondition() {
@@ -15,7 +17,12 @@ public class AssertStatement extends Statement {
     }
 
     @Override
+    public void checkSemantics() {
+        condition.checkSemantics();
+    }
+
+    @Override
     public String toString() {
-        return "Assert(" + condition.toString() + ")";
+        return "_Assert(" + condition.toString() + ")";
     }
 }

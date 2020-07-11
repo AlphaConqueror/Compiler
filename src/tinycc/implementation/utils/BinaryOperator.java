@@ -11,15 +11,11 @@ public enum BinaryOperator {
     GE("≥"),
     EQ("=="),
     ASSIGN("="),
-    BANG_EQ("!="),
-    NE("≠"),
-    AND("⋀"),
-    OR("⋁"),
-    IMPLIES("⇒");
+    BANG_EQ("!=");
 
     private final String symbol;
 
-    private BinaryOperator(String symbol) {
+    BinaryOperator(String symbol) {
         this.symbol = symbol;
     }
 

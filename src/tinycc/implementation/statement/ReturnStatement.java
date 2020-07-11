@@ -10,6 +10,8 @@ public class ReturnStatement extends Statement {
 
     public ReturnStatement(Expression result) {
         this.result = result;
+
+        this.result.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public boolean hasResult() {
@@ -19,6 +21,9 @@ public class ReturnStatement extends Statement {
     public Expression getResult() {
         return result;
     }
+
+    @Override
+    public void checkSemantics() {}
 
     @Override
     public String toString() {

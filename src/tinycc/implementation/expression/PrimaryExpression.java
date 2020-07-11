@@ -3,6 +3,7 @@ package tinycc.implementation.expression;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.StringLiteral;
+import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.Identifier;
 
 public class PrimaryExpression extends Expression {
@@ -31,6 +32,8 @@ public class PrimaryExpression extends Expression {
 
     public PrimaryExpression(Expression expression) {
         this.expression = expression;
+
+        this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public Character getCharacterConstant() {
@@ -51,6 +54,31 @@ public class PrimaryExpression extends Expression {
 
     public Expression getExpression() {
         return expression;
+    }
+
+    @Override
+    public void checkSemantics() {
+        if(expression != null)
+            expression.checkSemantics();
+    }
+
+    @Override
+    public Type getType() {
+        if(characterConstant != null)
+            return new Character();
+        if(identifier != null || stringLiteral != null)
+            return new StringLiteral();
+        if(integerConstant != null)
+            return new Integer();
+        if(expression != null)
+            return expression.getType();
+
+        return null;
+    }
+
+    @Override
+    public Type eval() {
+        return null;
     }
 
     @Override

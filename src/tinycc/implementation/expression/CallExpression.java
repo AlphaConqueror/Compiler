@@ -1,5 +1,7 @@
 package tinycc.implementation.expression;
 
+import tinycc.implementation.type.Type;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class CallExpression extends Expression {
         this.functionReference = functionReference;
         this.arguments = new LinkedList<>();
 
+        this.functionReference.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         addArgument(argument);
     }
 
@@ -20,10 +23,12 @@ public class CallExpression extends Expression {
         this.functionReference = functionReference;
         this.arguments = new LinkedList<>();
 
+        this.functionReference.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         addArguments(arguments);
     }
 
     public CallExpression addArgument(Expression argument) {
+        argument.addEnvironmentalDeclarations(arguments.size() == 0 ? this.getEnvironmentalDeclarations() : arguments.get(arguments.size() - 1).getEnvironmentalDeclarations());
         arguments.add(argument);
 
         return this;
@@ -45,6 +50,19 @@ public class CallExpression extends Expression {
     }
 
     @Override
+    public void checkSemantics() {}
+
+    @Override
+    public Type getType() {
+        return functionReference.getType();
+    }
+
+    @Override
+    public Type eval() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         String out = "";
 
@@ -55,6 +73,6 @@ public class CallExpression extends Expression {
                 out += ", ";
         }
 
-        return functionReference.toString() + " ( " + out + " )";
+        return functionReference.toString() + "(" + out + ")";
     }
 }

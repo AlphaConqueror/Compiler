@@ -1,4 +1,4 @@
-package tinycc.implementation.function;
+package tinycc.implementation.external.function;
 
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.Identifier;

@@ -1,6 +1,8 @@
 package tinycc.implementation;
 
 import tinycc.diagnostic.Diagnostic;
+import tinycc.implementation.external.ExternalDeclaration;
+import tinycc.implementation.external.TranslationUnit;
 import tinycc.logic.Formula;
 import tinycc.parser.ASTFactory;
 import tinycc.parser.Lexer;
@@ -64,7 +66,14 @@ public class Compiler {
 	 *          invoked only once in each instance of the compiler class.
 	 */
 	public void checkSemantics() {
-		throw new UnsupportedOperationException("TODO: implement this");
+		AST ast = ((AST) astFactory);
+		TranslationUnit translationUnit = ast.getTranslationUnit();
+
+		for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations()) {
+			System.out.println(externalDeclaration.toString());
+		}
+
+		translationUnit.checkSemantics();
 	}
 
 	/**

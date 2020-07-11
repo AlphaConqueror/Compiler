@@ -1,5 +1,6 @@
 package tinycc.implementation.expression;
 
+import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.UnaryOperator;
 
 public class UnaryExpression extends Expression {
@@ -12,6 +13,8 @@ public class UnaryExpression extends Expression {
         this.unaryOperator = unaryOperator;
         this.isPostfix = isPostfix;
         this.expression = expression;
+
+        this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public UnaryOperator getUnaryOperator() {
@@ -27,10 +30,25 @@ public class UnaryExpression extends Expression {
     }
 
     @Override
+    public void checkSemantics() {
+        expression.checkSemantics();
+    }
+
+    @Override
+    public Type getType() {
+        return expression.getType();
+    }
+
+    @Override
+    public Type eval() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         if(isPostfix())
-            return "(" + expression.toString() + " " + unaryOperator.toString() + ")";
+            return "(" + expression.toString() + unaryOperator.toString() + ")";
 
-        return "(" + unaryOperator.toString() + " " + expression.toString() + ")";
+        return "(" + unaryOperator.toString() + expression.toString() + ")";
     }
 }

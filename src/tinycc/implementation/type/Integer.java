@@ -1,8 +1,12 @@
 package tinycc.implementation.type;
 
-public class Integer extends Type {
+public class Integer extends WholeNumber {
 
     private final java.lang.Integer integer;
+
+    public Integer() {
+        this.integer = null;
+    }
 
     public Integer(java.lang.Integer integer) {
         this.integer = integer;

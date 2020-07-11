@@ -1,6 +1,11 @@
 package tinycc.implementation.statement;
 
 import tinycc.diagnostic.Locatable;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The main statement class (see project description)
@@ -11,6 +16,7 @@ import tinycc.diagnostic.Locatable;
 public abstract class Statement {
 
 	private Locatable locatable;
+	private final List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
 
 	public boolean hasLocatable() {
 		return locatable != null;
@@ -24,6 +30,21 @@ public abstract class Statement {
 		this.locatable = locatable;
 	}
 
+	public List<EnvironmentalDeclaration> getEnvironmentalDeclarations() {
+		return environmentalDeclarations;
+	}
+
+	public void addEnvironmentalDeclaration(EnvironmentalDeclaration environmentalDeclaration) {
+		environmentalDeclarations.add(environmentalDeclaration);
+	}
+
+	public void addEnvironmentalDeclarations(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+		for(EnvironmentalDeclaration environmentalDeclaration : environmentalDeclarations)
+			addEnvironmentalDeclaration(environmentalDeclaration);
+	}
+
+	public abstract void checkSemantics();
+
 	/**
 	 * Creates a string representation of this statement.
 	 *
@@ -32,5 +53,4 @@ public abstract class Statement {
 	 */
 	@Override
 	public abstract String toString();
-
 }

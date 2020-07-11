@@ -8,6 +8,8 @@ public class AssumeStatement extends Statement {
 
     public AssumeStatement(Expression condition) {
         this.condition = condition;
+
+        this.condition.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public Expression getCondition() {
@@ -15,7 +17,12 @@ public class AssumeStatement extends Statement {
     }
 
     @Override
+    public void checkSemantics() {
+        condition.checkSemantics();
+    }
+
+    @Override
     public String toString() {
-        return "Assume(" + condition.toString() + ")";
+        return "_Assume(" + condition.toString() + ")";
     }
 }

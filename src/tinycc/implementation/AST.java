@@ -3,7 +3,10 @@ package tinycc.implementation;
 import tinycc.diagnostic.Locatable;
 import tinycc.diagnostic.Location;
 import tinycc.implementation.expression.*;
-import tinycc.implementation.function.FunctionDeclaration;
+import tinycc.implementation.external.ExternalDeclaration;
+import tinycc.implementation.external.GlobalVariable;
+import tinycc.implementation.external.TranslationUnit;
+import tinycc.implementation.external.function.*;
 import tinycc.implementation.statement.*;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
@@ -21,11 +24,9 @@ import java.util.List;
 public class AST implements ASTFactory {
 
     private final TranslationUnit translationUnit;
-    private final List<FunctionDeclaration> functionDeclarations;
 
     public AST() {
         translationUnit = new TranslationUnit();
-        functionDeclarations = new ArrayList<>();
     }
 
     @Override
@@ -130,7 +131,7 @@ public class AST implements ASTFactory {
 
     @Override
     public Type createFunctionType(Type returnType, List<Type> parameters) {
-        return new FunctionType(returnType, new LinkedList<>()).addParameters(parameters);
+        return new FunctionType(returnType, new ArrayList<>()).addParameters(parameters);
     }
 
     @Override
@@ -234,11 +235,44 @@ public class AST implements ASTFactory {
 
     @Override
     public void createExternalDeclaration(Type type, Token name) {
+        ExternalDeclaration externalDeclaration;
 
+        if(type instanceof FunctionType) {
+            FunctionType functionType = (FunctionType) type;
+            List<Parameter> parameters = new LinkedList<>();
+
+            for(Type parameterType : functionType.getParameters())
+                parameters.add(new Parameter(parameterType));
+
+            externalDeclaration = new FunctionDeclaration(functionType.getReturnType(), new Identifier(name.getText()), new ParameterList(parameters));
+        } else
+            externalDeclaration = new GlobalVariable(type, new Identifier(name.getText()));
+
+        if(translationUnit.getExternalDeclarations().size() > 0)
+            externalDeclaration.addEnvironmentalDeclarations(translationUnit.getExternalDeclarations().get(translationUnit.getExternalDeclarations().size() - 1).getEnvironmentalDeclarations());
+
+        translationUnit.addExternalDeclaration(externalDeclaration);
     }
 
     @Override
     public void createFunctionDefinition(Type type, Token name, List<Token> parameterNames, Statement body) {
+        if(type instanceof FunctionType) {
+            FunctionType functionType = (FunctionType) type;
+            NamedParameterList namedParameters = new NamedParameterList();
 
+            for (int i = 0; i < functionType.getParameters().size(); i++)
+                namedParameters.addNamedParameter(new NamedParameter(functionType.getParameters().get(i), new Identifier(parameterNames.get(i).getText())));
+
+            Function function = new Function(functionType.getReturnType(), new Identifier(name.getText()), namedParameters, (Block) body);
+
+            if(translationUnit.getExternalDeclarations().size() > 0)
+                function.addEnvironmentalDeclarations(translationUnit.getExternalDeclarations().get(translationUnit.getExternalDeclarations().size() - 1).getEnvironmentalDeclarations());
+
+            translationUnit.addExternalDeclaration(function);
+        }
+    }
+
+    public TranslationUnit getTranslationUnit() {
+        return translationUnit;
     }
 }

@@ -1,5 +1,6 @@
-package tinycc.implementation.function;
+package tinycc.implementation.external.function;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,17 +8,24 @@ public class NamedParameterList {
 
     private final List<NamedParameter> namedParameters;
 
-    public NamedParameterList(NamedParameter namedParameter) {
+    public NamedParameterList() {
         namedParameters = new LinkedList<>();
-        addNamedParameter(namedParameter);
     }
 
-    public NamedParameterList(LinkedList<NamedParameter> namedParameterList) {
-        this.namedParameters = namedParameterList;
+    public NamedParameterList(Collection<NamedParameter> namedParameterList) {
+        this.namedParameters = new LinkedList<>();
+        addNamedParameters(namedParameterList);
     }
 
     public NamedParameterList addNamedParameter(NamedParameter namedParameter) {
         namedParameters.add(namedParameter);
+
+        return this;
+    }
+
+    public NamedParameterList addNamedParameters(Collection<NamedParameter> namedParameters) {
+        for(NamedParameter namedParameter : namedParameters)
+            addNamedParameter(namedParameter);
 
         return this;
     }

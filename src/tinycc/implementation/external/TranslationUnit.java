@@ -1,4 +1,4 @@
-package tinycc.implementation.utils;
+package tinycc.implementation.external;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +24,11 @@ public class TranslationUnit {
 
     public List<ExternalDeclaration> getExternalDeclarations() {
         return externalDeclarations;
+    }
+
+    public void checkSemantics() {
+        for(ExternalDeclaration externalDeclaration : externalDeclarations)
+            externalDeclaration.checkSemantics();
     }
 
     @Override

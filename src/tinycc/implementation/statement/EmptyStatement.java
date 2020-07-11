@@ -7,6 +7,9 @@ public class EmptyStatement extends Statement {
     public EmptyStatement() {}
 
     @Override
+    public void checkSemantics() {}
+
+    @Override
     public String toString() {
         return keyword + "";
     }
