@@ -1,16 +1,17 @@
 package tinycc.implementation.statement;
 
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Block extends Statement {
 
-    private final List<Statement> statements;
+    private final List<Statement> statements = new ArrayList<>();
 
-    public Block() {
-        this.statements = new LinkedList<>();
-    }
+    public Block() {}
 
     public Block addStatement(Statement statement) {
         statement.addEnvironmentalDeclarations(statements.size() == 0 ? this.getEnvironmentalDeclarations() : statements.get(statements.size() - 1).getEnvironmentalDeclarations());
@@ -32,6 +33,12 @@ public class Block extends Statement {
     }
 
     @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        for(Statement statement : statements)
+            statement.addEnvironmentalDeclarations(environmentalDeclarations);
+    }
+
+    @Override
     public void checkSemantics() {
         for(Statement statement : statements)
             statement.checkSemantics();
@@ -39,7 +46,7 @@ public class Block extends Statement {
 
     @Override
     public String toString() {
-        String block = "{\n";
+        String block = "\n" + this.getPrintedEnvironment() + "{\n";
 
         for(Statement statement : statements)
             block += statement.toString() + "\n";

@@ -1,26 +1,25 @@
 package tinycc.implementation.utils;
 
+import tinycc.implementation.type.*;
 import tinycc.implementation.type.Integer;
-import tinycc.implementation.type.Pointer;
-import tinycc.implementation.type.Scalar;
 
 public enum UnaryOperatorRule {
     POINT_TO_POINTER(UnaryOperator.POINT_TO, Pointer.class, Scalar.class, AdditionalRule.COMPLETE_TYPE_POINTER),
-    ADDRESS_OF_OBJECT(UnaryOperator.ADDRESS_OF, Object.class, Integer.class, AdditionalRule.COMPLETE_TYPE_ASSIGNABLE),
-    SIZE_OF_OBJECT(UnaryOperator.SIZE_OF, Object.class, Integer.class, AdditionalRule.COMPLETE_TYPE);
+    ADDRESS_OF_OBJECT(UnaryOperator.ADDRESS_OF, ObjectType.class, Integer.class, AdditionalRule.COMPLETE_TYPE_ASSIGNABLE),
+    SIZE_OF_OBJECT(UnaryOperator.SIZE_OF, ObjectType.class, Integer.class, AdditionalRule.COMPLETE_TYPE);
 
     private final UnaryOperator unaryOperator;
-    private final Class<?> operandClass, resultTypeClass;
+    private final Class<? extends Type> operandClass, resultTypeClass;
     private final AdditionalRule additionalRule;
 
-    UnaryOperatorRule(UnaryOperator unaryOperator, Class<?> operand, Class<?> resultType) {
+    UnaryOperatorRule(UnaryOperator unaryOperator, Class<? extends Type> operand, Class<? extends Type> resultType) {
         this.unaryOperator = unaryOperator;
         this.operandClass = operand;
         this.resultTypeClass = resultType;
         this.additionalRule = AdditionalRule.NONE;
     }
 
-    UnaryOperatorRule(UnaryOperator unaryOperator, Class<?> operand, Class<?> resultType, AdditionalRule additionalRule) {
+    UnaryOperatorRule(UnaryOperator unaryOperator, Class<? extends Type> operand, Class<? extends Type> resultType, AdditionalRule additionalRule) {
         this.unaryOperator = unaryOperator;
         this.operandClass = operand;
         this.resultTypeClass = resultType;
@@ -35,11 +34,11 @@ public enum UnaryOperatorRule {
         return unaryOperator;
     }
 
-    public Class<?> getOperandClass() {
+    public Class<? extends Type> getOperandClass() {
         return operandClass;
     }
 
-    public Class<?> getResultTypeClass() {
+    public Class<? extends Type> getResultTypeClass() {
         return resultTypeClass;
     }
 

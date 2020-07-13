@@ -1,18 +1,18 @@
 package tinycc.implementation.external;
 
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TranslationUnit {
 
-    private final List<ExternalDeclaration> externalDeclarations;
+    private final List<ExternalDeclaration> externalDeclarations = new ArrayList<>();
 
-    public TranslationUnit() {
-        externalDeclarations = new LinkedList<>();
-    }
+    public TranslationUnit() {}
 
     public TranslationUnit(ExternalDeclaration externalDeclaration) {
-        externalDeclarations = new LinkedList<>();
         addExternalDeclaration(externalDeclaration);
     }
 
@@ -24,6 +24,10 @@ public class TranslationUnit {
 
     public List<ExternalDeclaration> getExternalDeclarations() {
         return externalDeclarations;
+    }
+
+    public List<EnvironmentalDeclaration> getLastEnvironmentalDeclarations() {
+        return externalDeclarations.size() > 0 ? externalDeclarations.get(externalDeclarations.size() - 1).getEnvironmentalDeclarations() : new ArrayList<>();
     }
 
     public void checkSemantics() {

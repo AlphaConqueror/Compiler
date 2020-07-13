@@ -1,6 +1,9 @@
 package tinycc.implementation.statement;
 
 import tinycc.implementation.expression.Expression;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.Collection;
 
 public class ReturnStatement extends Statement {
 
@@ -10,9 +13,6 @@ public class ReturnStatement extends Statement {
 
     public ReturnStatement(Expression result) {
         this.result = result;
-
-        if(this.result != null)
-            this.result.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public boolean hasResult() {
@@ -24,7 +24,15 @@ public class ReturnStatement extends Statement {
     }
 
     @Override
-    public void checkSemantics() {}
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        result.addEnvironmentalDeclarations(environmentalDeclarations);
+    }
+
+    @Override
+    public void checkSemantics() {
+        if(hasResult())
+            result.checkSemantics();
+    }
 
     @Override
     public String toString() {

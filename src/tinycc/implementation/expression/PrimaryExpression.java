@@ -1,10 +1,14 @@
 package tinycc.implementation.expression;
 
+import prog2.tests.FatalCompilerError;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.StringLiteral;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
+
+import java.util.Collection;
 
 public class PrimaryExpression extends Expression {
 
@@ -32,24 +36,42 @@ public class PrimaryExpression extends Expression {
 
     public PrimaryExpression(Expression expression) {
         this.expression = expression;
+    }
 
-        this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+    public boolean hasCharacterConstant() {
+        return characterConstant != null;
     }
 
     public Character getCharacterConstant() {
         return characterConstant;
     }
 
+    public boolean hasIdentifier() {
+        return identifier != null;
+    }
+
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    public boolean hasIntegerConstant() {
+        return integerConstant != null;
     }
 
     public Integer getIntegerConstant() {
         return integerConstant;
     }
 
+    public boolean hasStringLiteral() {
+        return stringLiteral != null;
+    }
+
     public StringLiteral getStringLiteral() {
         return stringLiteral;
+    }
+
+    public boolean hasExpression() {
+        return expression != null;
     }
 
     public Expression getExpression() {
@@ -57,21 +79,57 @@ public class PrimaryExpression extends Expression {
     }
 
     @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        if(hasExpression())
+            expression.addEnvironmentalDeclarations(environmentalDeclarations);
+    }
+
+    @Override
     public void checkSemantics() {
-        if(expression != null)
+        if(hasExpression())
             expression.checkSemantics();
+        else if(hasIdentifier()) {
+            boolean identifierExists = false;
+
+            for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+                if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                    identifierExists = true;
+                    break;
+                }
+            }
+
+            if(!identifierExists)
+                throw new FatalCompilerError(this.getLocatable(), "The identifier '" + identifier.toString() + "' does not exists.");
+        }
     }
 
     @Override
     public Type getType() {
-        if(characterConstant != null)
+        if(hasCharacterConstant())
             return new Character();
-        if(identifier != null || stringLiteral != null)
+        if(hasIdentifier()) {
+            Type declarationType = getDeclarationByIdentifier(identifier);
+
+            if(declarationType != null)
+                return declarationType;
+            else
+                return new StringLiteral();
+        }
+        if(hasStringLiteral())
             return new StringLiteral();
-        if(integerConstant != null)
+        if(hasIntegerConstant())
             return new Integer();
-        if(expression != null)
+        if(hasExpression())
             return expression.getType();
+
+        return null;
+    }
+
+    private Type getDeclarationByIdentifier(Identifier identifier) {
+        for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.getIdentifier()))
+                return environmentalDeclaration.getType();
+        }
 
         return null;
     }
@@ -85,15 +143,15 @@ public class PrimaryExpression extends Expression {
     public String toString() {
         String out = null;
 
-        if(characterConstant != null)
-            out = characterConstant + "";
-        else if(identifier != null)
+        if(hasCharacterConstant())
+            out = characterConstant.toString() + "";
+        else if(hasIdentifier())
             out = identifier.toString();
-        else if(integerConstant != null)
+        else if(hasIntegerConstant())
             out = integerConstant + "";
-        else if(stringLiteral != null)
+        else if(hasStringLiteral())
             out = stringLiteral.toString();
-        else if(expression != null)
+        else if(hasExpression())
             out = expression.toString();
 
         return out;

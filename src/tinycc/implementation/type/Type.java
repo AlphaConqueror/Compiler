@@ -16,4 +16,7 @@ public abstract class Type {
 	 */
 	@Override
 	public abstract String toString();
+
+	@Override
+	public abstract boolean equals(Object obj);
 }

@@ -5,6 +5,7 @@ import tinycc.implementation.utils.EnvironmentalDeclaration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,12 +37,32 @@ public abstract class Statement {
 
 	public void addEnvironmentalDeclaration(EnvironmentalDeclaration environmentalDeclaration) {
 		environmentalDeclarations.add(environmentalDeclaration);
+
+		updateEnvironment(Collections.singleton(environmentalDeclaration));
 	}
 
 	public void addEnvironmentalDeclarations(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
 		for(EnvironmentalDeclaration environmentalDeclaration : environmentalDeclarations)
-			addEnvironmentalDeclaration(environmentalDeclaration);
+			this.environmentalDeclarations.add(environmentalDeclaration);
+
+		updateEnvironment(environmentalDeclarations);
 	}
+
+	//DEBUG
+	public String getPrintedEnvironment() {
+		String out = "";
+
+		for(int i = 0; i < environmentalDeclarations.size(); i++) {
+			out += environmentalDeclarations.get(i).getIdentifier();
+
+			if(i < environmentalDeclarations.size() - 1)
+				out += ",";
+		}
+
+		return "[" + out + "]";
+	}
+
+	public abstract void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations);
 
 	public abstract void checkSemantics();
 

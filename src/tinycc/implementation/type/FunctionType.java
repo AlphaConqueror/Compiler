@@ -61,4 +61,22 @@ public class FunctionType extends Type {
 
         return returnType.toString() + "("  + out + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        FunctionType f = (FunctionType) obj;
+
+        for(int i = 0; i < parameters.size(); i++) {
+            if(!f.getParameters().get(i).equals(parameters.get(i)))
+                return false;
+        }
+
+        return f.returnType.equals(returnType) && f.getParameters().size() == parameters.size();
+    }
 }

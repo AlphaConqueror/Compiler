@@ -1,19 +1,19 @@
 package tinycc.implementation.expression;
 
 import tinycc.implementation.type.Type;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CallExpression extends Expression {
 
     private final Expression functionReference;
-    private final List<Expression> arguments;
+    private final List<Expression> arguments = new ArrayList<>();
 
     public CallExpression(Expression functionReference, Expression argument) {
         this.functionReference = functionReference;
-        this.arguments = new LinkedList<>();
 
         this.functionReference.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         addArgument(argument);
@@ -21,7 +21,6 @@ public class CallExpression extends Expression {
 
     public CallExpression(Expression functionReference, Collection<Expression> arguments) {
         this.functionReference = functionReference;
-        this.arguments = new LinkedList<>();
 
         this.functionReference.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         addArguments(arguments);
@@ -47,6 +46,14 @@ public class CallExpression extends Expression {
 
     public List<Expression> getArguments() {
         return arguments;
+    }
+
+    @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        functionReference.addEnvironmentalDeclarations(environmentalDeclarations);
+
+        for(Expression argument : arguments)
+            argument.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override

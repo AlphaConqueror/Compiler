@@ -4,6 +4,9 @@ import prog2.tests.FatalCompilerError;
 import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.Collection;
 
 public class WhileStatement extends Statement {
 
@@ -17,9 +20,6 @@ public class WhileStatement extends Statement {
         this.term = term;
 
         //TODO: Bonus
-
-        this.condition.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
-        this.statement.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
     }
 
     public Expression getCondition() {
@@ -44,6 +44,14 @@ public class WhileStatement extends Statement {
 
     public Expression getTerm() {
         return term;
+    }
+
+    @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        condition.addEnvironmentalDeclarations(environmentalDeclarations);
+        invariant.addEnvironmentalDeclarations(environmentalDeclarations);
+        term.addEnvironmentalDeclarations(environmentalDeclarations);
+        statement.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override

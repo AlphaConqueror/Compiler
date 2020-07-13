@@ -2,9 +2,12 @@ package tinycc.implementation.external.function;
 
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.statement.Block;
+import tinycc.implementation.statement.Declaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
+
+import java.util.Collection;
 
 public class Function extends ExternalDeclaration implements EnvironmentalDeclaration {
 
@@ -19,7 +22,6 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         this.block = block;
 
         checkForDuplicate(this.identifier);
-
         addEnvironmentalDeclaration(this);
     }
 
@@ -30,8 +32,10 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         this.block = block;
 
         checkForDuplicate(this.identifier);
-
         addEnvironmentalDeclaration(this);
+
+        for(NamedParameter namedParameter : this.namedParameterList.getNamedParameters())
+            addEnvironmentalDeclaration(new Declaration(namedParameter.getType(), namedParameter.getIdentifier()));
     }
 
     private void checkForDuplicate(Identifier identifier) {
@@ -70,6 +74,11 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     }
 
     @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        block.addEnvironmentalDeclarations(environmentalDeclarations);
+    }
+
+    @Override
     public void checkSemantics() {
         block.checkSemantics();
     }
@@ -77,5 +86,10 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     @Override
     public String toString() {
         return returnType.toString() + " " + identifier.toString() + "(" + (hasNamedParameterList() ? namedParameterList.toString() : "") + ") " + block.toString() + "\n";
+    }
+
+    @Override
+    public Type getType() {
+        return returnType;
     }
 }

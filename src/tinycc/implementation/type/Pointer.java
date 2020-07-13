@@ -1,30 +1,56 @@
 package tinycc.implementation.type;
 
-public class Pointer extends Scalar {
+import java.lang.reflect.Array;
 
-    private final Type pointsTo;
+public class Pointer<T extends Type> extends Scalar {
 
-    public Pointer() {
-        this.pointsTo = null;
+    private final T type;
+    private T[] array;
+
+    public Pointer(T type) {
+        this.type = type;
+        this.array = (T[]) Array.newInstance(type.getClass(), 1);
     }
 
-    public Pointer(Type pointsTo) {
-        this.pointsTo = pointsTo;
+    public Pointer(T type, int size) {
+        this.type = type;
+        this.array = (T[]) Array.newInstance(type.getClass(), size);
     }
 
-    public Type getPointsTo() {
-        return pointsTo;
+    public Type getType() {
+        return type;
     }
 
     public Type getInnerType() {
-        if(pointsTo instanceof Pointer)
-            return ((Pointer) pointsTo).getInnerType();
+        if(type instanceof Pointer)
+            return ((Pointer) type).getInnerType();
 
-        return pointsTo;
+        return type;
+    }
+
+    public T[] getArray() {
+        return array;
+    }
+
+    public void setArray(T[] array) {
+        this.array = array;
     }
 
     @Override
     public String toString() {
-        return pointsTo.toString() + "*";
+        return type.toString() + "*";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Pointer p = (Pointer) obj;
+
+        return p.getType().getClass() == type.getClass();
     }
 }

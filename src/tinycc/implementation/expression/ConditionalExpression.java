@@ -3,6 +3,9 @@ package tinycc.implementation.expression;
 import prog2.tests.FatalCompilerError;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.Collection;
 
 public class ConditionalExpression extends Expression {
 
@@ -12,10 +15,6 @@ public class ConditionalExpression extends Expression {
         this.condition = condition;
         this.consequence = consequence;
         this.alternative = alternative;
-
-        this.condition.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
-        this.consequence.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
-        this.alternative.addEnvironmentalDeclarations(this.condition.getEnvironmentalDeclarations());
     }
 
     public Expression getCondition() {
@@ -28,6 +27,13 @@ public class ConditionalExpression extends Expression {
 
     public Expression getAlternative() {
         return alternative;
+    }
+
+    @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        condition.addEnvironmentalDeclarations(environmentalDeclarations);
+        consequence.addEnvironmentalDeclarations(environmentalDeclarations);
+        alternative.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override

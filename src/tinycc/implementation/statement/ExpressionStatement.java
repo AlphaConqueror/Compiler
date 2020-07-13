@@ -1,6 +1,9 @@
 package tinycc.implementation.statement;
 
 import tinycc.implementation.expression.Expression;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.Collection;
 
 public class ExpressionStatement extends Statement {
 
@@ -8,12 +11,15 @@ public class ExpressionStatement extends Statement {
 
     public ExpressionStatement(Expression expression) {
         this.expression = expression;
-
-        this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public Expression getExpression() {
         return expression;
+    }
+
+    @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        expression.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override

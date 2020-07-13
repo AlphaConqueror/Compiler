@@ -20,4 +20,17 @@ public class StringLiteral extends Type {
     public String toString() {
         return "\"" + string + "\"";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        StringLiteral s = (StringLiteral) obj;
+
+        return s.getString().equals(string);
+    }
 }

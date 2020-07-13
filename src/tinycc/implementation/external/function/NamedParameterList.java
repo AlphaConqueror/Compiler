@@ -1,19 +1,17 @@
 package tinycc.implementation.external.function;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 public class NamedParameterList {
 
-    private final List<NamedParameter> namedParameters;
+    private final List<NamedParameter> namedParameters = new ArrayList<>();
 
-    public NamedParameterList() {
-        namedParameters = new LinkedList<>();
-    }
+    public NamedParameterList() {}
 
     public NamedParameterList(Collection<NamedParameter> namedParameterList) {
-        this.namedParameters = new LinkedList<>();
         addNamedParameters(namedParameterList);
     }
 

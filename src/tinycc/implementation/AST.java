@@ -12,7 +12,10 @@ import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Void;
 import tinycc.implementation.type.*;
-import tinycc.implementation.utils.*;
+import tinycc.implementation.utils.BinaryOperator;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+import tinycc.implementation.utils.Identifier;
+import tinycc.implementation.utils.UnaryOperator;
 import tinycc.parser.ASTFactory;
 import tinycc.parser.Token;
 import tinycc.parser.TokenKind;
@@ -165,11 +168,16 @@ public class AST implements ASTFactory {
                 break;
             }
 
-        BinaryExpression binaryExpression = new BinaryExpression(binaryOperator, left, right);
+        Expression expression;
 
-        binaryExpression.setLocatable(new Location(operator.getInputName(), operator.getLine(), operator.getColumn()));
+        if(binaryOperator != BinaryOperator.ASSIGN)
+            expression = new BinaryExpression(binaryOperator, left, right);
+        else
+            expression = new AssignExpression(left, right);
 
-        return binaryExpression;
+        expression.setLocatable(new Location(operator.getInputName(), operator.getLine(), operator.getColumn()));
+
+        return expression;
     }
 
     @Override
@@ -248,8 +256,7 @@ public class AST implements ASTFactory {
         } else
             externalDeclaration = new GlobalVariable(type, new Identifier(name.getText()));
 
-        if(translationUnit.getExternalDeclarations().size() > 0)
-            externalDeclaration.addEnvironmentalDeclarations(translationUnit.getExternalDeclarations().get(translationUnit.getExternalDeclarations().size() - 1).getEnvironmentalDeclarations());
+        externalDeclaration.addEnvironmentalDeclarations(translationUnit.getLastEnvironmentalDeclarations());
 
         translationUnit.addExternalDeclaration(externalDeclaration);
     }
@@ -264,10 +271,19 @@ public class AST implements ASTFactory {
                 namedParameters.addNamedParameter(new NamedParameter(functionType.getParameters().get(i), new Identifier(parameterNames.get(i).getText())));
 
             Function function = new Function(functionType.getReturnType(), new Identifier(name.getText()), namedParameters, (Block) body);
+            List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
 
-            if(translationUnit.getExternalDeclarations().size() > 0)
-                function.addEnvironmentalDeclarations(translationUnit.getExternalDeclarations().get(translationUnit.getExternalDeclarations().size() - 1).getEnvironmentalDeclarations());
+            for(EnvironmentalDeclaration environmentalDeclaration : translationUnit.getLastEnvironmentalDeclarations())
+                environmentalDeclarations.add(environmentalDeclaration);
 
+            for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations()) {
+                if(externalDeclaration.getIdentifier().toString().equals(function.getIdentifier().toString())) {
+                    environmentalDeclarations.remove(externalDeclaration);
+                    break;
+                }
+            }
+
+            function.addEnvironmentalDeclarations(environmentalDeclarations);
             translationUnit.addExternalDeclaration(function);
         }
     }

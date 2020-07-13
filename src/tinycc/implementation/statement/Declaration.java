@@ -8,6 +8,7 @@ import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Declaration extends Statement implements EnvironmentalDeclaration {
@@ -31,9 +32,6 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         this.expression = expression;
 
         this.addEnvironmentalDeclaration(this);
-
-        if(this.expression != null)
-            this.expression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     private void checkForDuplicate(Identifier identifier) {
@@ -50,6 +48,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
             throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
     }
 
+    @Override
     public Type getType() {
         return type;
     }
@@ -69,6 +68,14 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+
+        checkSemantics();
+    }
+
+    @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        if(hasExpression())
+            expression.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     public void checkSemantics() {
@@ -81,7 +88,6 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
 
     @Override
     public String toString() {
-        return type.toString() + " " + identifier.toString()
-                + (hasExpression() ? " = " + expression.toString() : "") + ";";
+        return type.toString() + " " + identifier.toString() + (hasExpression() ? " = " + expression.toString() : "") + ";";
     }
 }

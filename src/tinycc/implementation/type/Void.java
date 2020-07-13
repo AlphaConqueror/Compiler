@@ -6,4 +6,12 @@ public class Void extends ObjectType {
     public String toString() {
         return "void";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        return false;
+    }
 }

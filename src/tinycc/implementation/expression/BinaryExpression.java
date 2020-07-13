@@ -6,6 +6,9 @@ import tinycc.implementation.type.Void;
 import tinycc.implementation.type.*;
 import tinycc.implementation.utils.BinaryOperator;
 import tinycc.implementation.utils.BinaryOperatorRule;
+import tinycc.implementation.utils.EnvironmentalDeclaration;
+
+import java.util.Collection;
 
 public class BinaryExpression extends Expression {
 
@@ -16,9 +19,6 @@ public class BinaryExpression extends Expression {
         this.binaryOperator = binaryOperator;
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
-
-        this.firstExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
-        this.secondExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
     }
 
     public BinaryOperator getBinaryOperator() {
@@ -45,6 +45,12 @@ public class BinaryExpression extends Expression {
     }
 
     @Override
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+        firstExpression.addEnvironmentalDeclarations(environmentalDeclarations);
+        secondExpression.addEnvironmentalDeclarations(environmentalDeclarations);
+    }
+
+    @Override
     public void checkSemantics() {
         firstExpression.checkSemantics();
         secondExpression.checkSemantics();
@@ -52,8 +58,7 @@ public class BinaryExpression extends Expression {
         BinaryOperatorRule rule = getRule();
 
         if(rule == null)
-            throw new FatalCompilerError(firstExpression.getLocatable(), "Illegitimate binary operation '"
-                    + firstExpression.getType().toString() + " " + binaryOperator.toString() + " " + secondExpression.getType().toString() + "'.");
+            throw new FatalCompilerError(firstExpression.getLocatable(), "Illegitimate binary operation '" + toString() + "'.");
 
         switch (rule.getAdditionalRule()) {
             case COMPLETE_TYPE_POINTER:
@@ -90,27 +95,24 @@ public class BinaryExpression extends Expression {
                     if (!isIdenticalPointerType(pointer1, pointer2))
                         throw new FatalCompilerError(firstExpression.getLocatable(), "Pointers do not have the same type.");
 
-                    if(pointer1.getPointsTo().getClass() != (new Void()).getClass() && pointer1.getInnerType() != null)
+                    if(pointer1.getType().getClass() != (new Void()).getClass() && pointer1.getInnerType() != null)
                         throw new FatalCompilerError(firstExpression.getLocatable(), "Pointer does not equal a void pointer, nor a null pointer.");
 
-                    if(pointer2.getPointsTo().getClass() != (new Void()).getClass() && pointer2.getInnerType() != null)
+                    if(pointer2.getType().getClass() != (new Void()).getClass() && pointer2.getInnerType() != null)
                         throw new FatalCompilerError(secondExpression.getLocatable(), "Pointer does not equal a void pointer, nor a null pointer.");
                 }
-                break;
-            case ASSIGNABLE_LVALUE:
-                //TODO
                 break;
             default:
                 break;
         }
 
-        if(!rule.getLOperandClass().isAssignableFrom(firstExpression.getType().getClass()))
+        if (!rule.getLOperandClass().isAssignableFrom(firstExpression.getType().getClass()))
             throw new FatalCompilerError(firstExpression.getLocatable(), "Operand class does not correspond with the rules operand class. Right class = "
                     + rule.getLOperandClass().toString() + ", got class " + firstExpression.getType().getClass().toString() + ".");
 
-        if(!rule.getROperandClass().isAssignableFrom(secondExpression.getType().getClass()))
+        if (!rule.getROperandClass().isAssignableFrom(secondExpression.getType().getClass()))
             throw new FatalCompilerError(secondExpression.getLocatable(), "Operand class does not correspond with the rules operand class. Right class = "
-                    + rule.getROperandClass().toString() + ", got class " + secondExpression.getType().getClass().toString() + ".");
+                    + rule.getLOperandClass().toString() + ", got class " + secondExpression.getType().getClass().toString() + ".");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {
@@ -138,7 +140,7 @@ public class BinaryExpression extends Expression {
         if(rule.getResultTypeClass() == Pointer.class)
             return firstExpression.getType();
 
-        return null;
+        throw new RuntimeException("Unknown type: " + rule.getResultTypeClass().toString());
     }
 
     @Override
