@@ -1,7 +1,5 @@
 package tinycc.implementation.type;
 
-import java.lang.reflect.Array;
-
 public class Pointer<T extends Type> extends Scalar {
 
     private final T type;
@@ -9,12 +7,12 @@ public class Pointer<T extends Type> extends Scalar {
 
     public Pointer(T type) {
         this.type = type;
-        this.array = (T[]) Array.newInstance(type.getClass(), 1);
+        this.array = (T[]) new Object[1];
     }
 
     public Pointer(T type, int size) {
         this.type = type;
-        this.array = (T[]) Array.newInstance(type.getClass(), size);
+        this.array = (T[]) new Object[size];
     }
 
     public Type getType() {
