@@ -1,7 +1,9 @@
 package tinycc.implementation.statement;
 
 import tinycc.implementation.expression.Expression;
+import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
+import tinycc.implementation.utils.ReturnType;
 
 import java.util.Collection;
 
@@ -25,13 +27,24 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
-        result.addEnvironmentalDeclarations(environmentalDeclarations);
+        if(hasResult())
+            result.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override
     public void checkSemantics() {
         if(hasResult())
             result.checkSemantics();
+    }
+
+
+
+    @Override
+    public ReturnType getReturnType(Type type) {
+        if(hasResult())
+            return result.getType().toString().equals(type.toString()) ? ReturnType.TRUE : ReturnType.FALSE;
+
+        return ReturnType.NO_RETURN;
     }
 
     @Override

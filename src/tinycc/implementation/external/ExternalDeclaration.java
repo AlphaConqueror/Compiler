@@ -30,22 +30,9 @@ public abstract class ExternalDeclaration implements EnvironmentalDeclaration {
         updateEnvironment(environmentalDeclarations);
     }
 
-    public String getPrintedEnvironment() {
-        String out = "";
+    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
 
-        for(int i = 0; i < environmentalDeclarations.size(); i++) {
-            out += environmentalDeclarations.get(i).getIdentifier();
-
-            if(i < environmentalDeclarations.size() - 1)
-                out += ",";
-        }
-
-        return "[" + out + "]";
-    }
-
-    public abstract void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations);
-
-    public abstract void checkSemantics();
+    public void checkSemantics() {}
 
     /**
      * Creates a string representation of this external declaration.

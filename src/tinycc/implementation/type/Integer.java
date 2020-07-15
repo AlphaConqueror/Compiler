@@ -1,7 +1,5 @@
 package tinycc.implementation.type;
 
-import java.util.Objects;
-
 public class Integer extends WholeNumber {
 
     private final java.lang.Integer integer;
@@ -36,6 +34,6 @@ public class Integer extends WholeNumber {
 
         Integer i = (Integer) obj;
 
-        return i.equals(integer);
+        return i.getInteger() == integer || i.getInteger().equals(integer);
     }
 }

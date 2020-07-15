@@ -1,6 +1,7 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Pointer;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.type.WholeNumber;
@@ -37,12 +38,7 @@ public class UnaryExpression extends Expression {
     public UnaryOperatorRule getRule() {
         for(UnaryOperatorRule rule : UnaryOperatorRule.values()) {
             if(rule.getUnaryOperator().equals(unaryOperator)) {
-                Type expressionType = expression.getType();
-
-                if(expression instanceof PrimaryExpression && ((PrimaryExpression) expression).hasIdentifier())
-                    expressionType = getDeclarationByIdentifier(((PrimaryExpression) expression).getIdentifier().getIdentifier()).getType();
-
-                if(rule.getOperandClass().isAssignableFrom(expressionType.getClass()))
+                if(rule.getOperandClass().isAssignableFrom(expression.getType().getClass()))
                     return rule;
             }
         }
@@ -56,12 +52,12 @@ public class UnaryExpression extends Expression {
                 return environmentalDeclaration;
         }
 
-        throw new RuntimeException("No environmental declaration with the identifier '" + identifier + "' available.");
+        return null;
     }
 
     @Override
     public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
-        this.expression.addEnvironmentalDeclarations(environmentalDeclarations);
+        expression.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
     @Override
@@ -85,7 +81,12 @@ public class UnaryExpression extends Expression {
                     throw new FatalCompilerError(expression.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
                 break;
             case COMPLETE_TYPE_ASSIGNABLE:
+                if(!(expression.getType() instanceof WholeNumber))
+                    throw new FatalCompilerError(expression.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
 
+                if(getDeclarationByIdentifier(expression.toString()) == null)
+                    throw new FatalCompilerError(expression.getLocatable(), "Expression is not assignable.");
+                break;
             default:
                 break;
         }
@@ -102,12 +103,28 @@ public class UnaryExpression extends Expression {
 
     @Override
     public Type getType() {
-        return expression.getType();
+        UnaryOperatorRule rule = getRule();
+
+        if(rule.getResultTypeClass() == Integer.class)
+            return new Integer();
+
+        if(rule.getUnaryOperator() == UnaryOperator.POINT_TO)
+            return ((Pointer) expression.getType()).getType();
+
+        if(rule.getUnaryOperator() == UnaryOperator.ADDRESS_OF)
+            return new Pointer<>(expression.getType());
+
+        throw new RuntimeException("Unknown type: " + rule.getResultTypeClass().toString());
     }
 
     @Override
-    public Type eval() {
-        return null;
+    public Expression clone() {
+        UnaryExpression unaryExpression = new UnaryExpression(unaryOperator, isPostfix, expression.clone());
+
+        unaryExpression.setLocatable(this.getLocatable());
+        unaryExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return unaryExpression;
     }
 
     @Override

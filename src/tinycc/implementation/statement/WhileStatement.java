@@ -5,6 +5,7 @@ import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
+import tinycc.implementation.utils.ReturnType;
 
 import java.util.Collection;
 
@@ -63,6 +64,11 @@ public class WhileStatement extends Statement {
                     + conditionType.getClass().toString() + ".");
         else if(((Integer) conditionType).getInteger() < 0 || ((Integer) conditionType).getInteger() > 1)
             throw new FatalCompilerError(condition.getLocatable(), "Condition index is out of bounds [0,1]. Got " + ((Integer) conditionType).getInteger() + ".");
+    }
+
+    @Override
+    public ReturnType getReturnType(Type type) {
+        return statement.getReturnType(type);
     }
 
     @Override

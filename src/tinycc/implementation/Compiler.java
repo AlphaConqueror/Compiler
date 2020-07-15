@@ -1,10 +1,8 @@
 package tinycc.implementation;
 
-import prog2.tests.FatalCompilerError;
 import tinycc.diagnostic.Diagnostic;
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.external.TranslationUnit;
-import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.logic.Formula;
 import tinycc.parser.ASTFactory;
 import tinycc.parser.Lexer;
@@ -72,7 +70,6 @@ public class Compiler {
 		TranslationUnit translationUnit = ast.getTranslationUnit();
 
 		for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations()) {
-			System.out.println(externalDeclaration.getPrintedEnvironment());
 			System.out.println(externalDeclaration.toString());
 		}
 

@@ -1,10 +1,11 @@
 package tinycc.implementation.statement;
 
+import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
+import tinycc.implementation.utils.ReturnType;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Block extends Statement {
@@ -45,8 +46,20 @@ public class Block extends Statement {
     }
 
     @Override
+    public ReturnType getReturnType(Type type) {
+        for(Statement statement : statements) {
+            ReturnType returnType = statement.getReturnType(type);
+
+            if(returnType == ReturnType.TRUE || returnType == ReturnType.NO_RETURN)
+                return returnType;
+        }
+
+        return ReturnType.FALSE;
+    }
+
+    @Override
     public String toString() {
-        String block = "\n" + this.getPrintedEnvironment() + "{\n";
+        String block = "{\n";
 
         for(Statement statement : statements)
             block += statement.toString() + "\n";

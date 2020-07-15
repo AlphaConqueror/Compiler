@@ -66,4 +66,19 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 				+ "}\n";
 		runIntegrationTest("testCompleteProgram", code);
 	}
+
+	@Test
+	public void testOwn() {
+		final String code = ""
+				+ "void foo(int a) {\n"
+				+ " return;\n"
+				+ "}\n"
+				+ "int bar(int a) {\n"
+				+ " return a;\n"
+				+ "}\n"
+				+ "int bar1(int a) {\n"
+				+ " return 1;\n"
+				+ "}\n";
+		runIntegrationTest("testOwn", code);
+	}
 }

@@ -1,11 +1,14 @@
 package tinycc.implementation.external.function;
 
+import prog2.tests.FatalCompilerError;
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.statement.Block;
 import tinycc.implementation.statement.Declaration;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.type.Void;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
+import tinycc.implementation.utils.ReturnType;
 
 import java.util.Collection;
 
@@ -81,6 +84,16 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     @Override
     public void checkSemantics() {
         block.checkSemantics();
+
+        ReturnType hasReturnType = block.getReturnType(returnType);
+
+        if(returnType.toString().equals((new Void()).toString())) {
+            if(hasReturnType == ReturnType.TRUE)
+                throw new FatalCompilerError(block.getLocatable(), "Detected return statement in void type function.");
+        } else if(hasReturnType == ReturnType.FALSE)
+            throw new FatalCompilerError(block.getLocatable(), "No return statement detected.");
+        else if(hasReturnType == ReturnType.NO_RETURN)
+            throw new FatalCompilerError(block.getLocatable(), "Detected return statement without value.");
     }
 
     @Override

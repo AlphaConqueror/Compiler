@@ -144,8 +144,13 @@ public class BinaryExpression extends Expression {
     }
 
     @Override
-    public Type eval() {
-        return null;
+    public Expression clone() {
+        BinaryExpression binaryExpression = new BinaryExpression(binaryOperator, firstExpression.clone(), secondExpression.clone());
+
+        binaryExpression.setLocatable(this.getLocatable());
+        binaryExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return binaryExpression;
     }
 
     @Override

@@ -5,8 +5,6 @@ import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
 
-import java.util.Collection;
-
 public class FunctionDeclaration extends ExternalDeclaration implements EnvironmentalDeclaration {
 
     private final Type returnType;
@@ -62,12 +60,6 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
     public ParameterList getParameterList() {
         return parameterList;
     }
-
-    @Override
-    public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
-
-    @Override
-    public void checkSemantics() {}
 
     @Override
     public String toString() {

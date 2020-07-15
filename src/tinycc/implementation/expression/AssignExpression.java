@@ -1,8 +1,6 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.implementation.external.GlobalVariable;
-import tinycc.implementation.statement.Declaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 
@@ -25,29 +23,6 @@ public class AssignExpression extends Expression {
         return right;
     }
 
-    private boolean assignEnvironmentalDeclarations(Expression expression) {
-        boolean declarationExists = false;
-
-        for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(((PrimaryExpression) left).getIdentifier().toString())) {
-                declarationExists = true;
-
-                if(environmentalDeclaration.getType().getClass() != expression.getType().getClass())
-                    throw new FatalCompilerError(expression.getLocatable(), "The declaration to be assigned and the expression do not have the same type. "
-                            + "Right type = " + environmentalDeclaration.getType().toString() + ", got type " + expression.getType().toString() + ".");
-
-                if(environmentalDeclaration instanceof Declaration)
-                    ((Declaration) environmentalDeclaration).setExpression(expression);
-                else if(environmentalDeclaration instanceof GlobalVariable)
-                    ((GlobalVariable) environmentalDeclaration).setExpression(expression);
-                else
-                    throw new FatalCompilerError(expression.getLocatable(), "This environmental declaration is not assignable.");
-            }
-        }
-
-        return declarationExists;
-    }
-
     @Override
     public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
         left.addEnvironmentalDeclarations(environmentalDeclarations);
@@ -59,15 +34,9 @@ public class AssignExpression extends Expression {
         left.checkSemantics();
         right.checkSemantics();
 
-        //TODO: Make pointer assignments possible (*b = ...)
-
-        System.out.println(left.getClass().toString() + " --> " + left.toString());
-
-        if(!(left instanceof PrimaryExpression) || !((PrimaryExpression) left).hasIdentifier())
-            throw new FatalCompilerError(left.getLocatable(), "The declaration is not assignable.");
-
-        if(!assignEnvironmentalDeclarations(right))
-            throw new FatalCompilerError(left.getLocatable(), "The declaration to be assigned does not exist. " + left.getLocatable().getLine());
+        if(!left.getType().toString().equals(right.getType().toString()))
+            throw new FatalCompilerError(right.getLocatable(), left.toString() + "(" + left.getType().toString() + ")" + " != "
+                    + right.toString() + "(" + right.getType().toString() + ")");
     }
 
     @Override
@@ -76,8 +45,13 @@ public class AssignExpression extends Expression {
     }
 
     @Override
-    public Type eval() {
-        return left.getType();
+    public Expression clone() {
+        AssignExpression assignExpression = new AssignExpression(left.clone(), right.clone());
+
+        assignExpression.setLocatable(this.getLocatable());
+        assignExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return assignExpression;
     }
 
     @Override

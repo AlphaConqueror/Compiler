@@ -58,13 +58,14 @@ public abstract class Expression {
 		return "[" + out + "]";
 	}
 
-	public abstract void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations);
 
-	public abstract void checkSemantics();
+	public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
+
+	public void checkSemantics() {}
 
 	public abstract Type getType();
 
-	public abstract Type eval();
+	public abstract Expression clone();
 
 	/**
 	 * Creates a string representation of this expression.

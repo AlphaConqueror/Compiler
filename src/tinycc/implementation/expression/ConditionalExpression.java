@@ -56,8 +56,13 @@ public class ConditionalExpression extends Expression {
     }
 
     @Override
-    public Type eval() {
-        return null;
+    public Expression clone() {
+        ConditionalExpression conditionalExpression = new ConditionalExpression(condition.clone(), consequence.clone(), alternative.clone());
+
+        conditionalExpression.setLocatable(this.getLocatable());
+        conditionalExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return conditionalExpression;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package tinycc.implementation.statement;
 
 import tinycc.diagnostic.Locatable;
+import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
+import tinycc.implementation.utils.ReturnType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,23 +50,13 @@ public abstract class Statement {
 		updateEnvironment(environmentalDeclarations);
 	}
 
-	//DEBUG
-	public String getPrintedEnvironment() {
-		String out = "";
+	public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
 
-		for(int i = 0; i < environmentalDeclarations.size(); i++) {
-			out += environmentalDeclarations.get(i).getIdentifier();
+	public void checkSemantics() {}
 
-			if(i < environmentalDeclarations.size() - 1)
-				out += ",";
-		}
-
-		return "[" + out + "]";
+	public ReturnType getReturnType(Type type) {
+		return ReturnType.FALSE;
 	}
-
-	public abstract void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations);
-
-	public abstract void checkSemantics();
 
 	/**
 	 * Creates a string representation of this statement.

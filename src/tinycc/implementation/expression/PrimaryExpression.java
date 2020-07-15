@@ -135,8 +135,24 @@ public class PrimaryExpression extends Expression {
     }
 
     @Override
-    public Type eval() {
-        return null;
+    public Expression clone() {
+        PrimaryExpression primaryExpression = null;
+
+        if(hasCharacterConstant())
+            primaryExpression = new PrimaryExpression(characterConstant);
+        else if(hasIdentifier())
+            primaryExpression = new PrimaryExpression(identifier);
+        else if(hasIntegerConstant())
+            primaryExpression = new PrimaryExpression(integerConstant);
+        else if(hasStringLiteral())
+            primaryExpression = new PrimaryExpression(stringLiteral);
+        else if(hasExpression())
+            primaryExpression = new PrimaryExpression(expression.clone());
+
+        primaryExpression.setLocatable(this.getLocatable());
+        primaryExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return primaryExpression;
     }
 
     @Override
@@ -144,11 +160,11 @@ public class PrimaryExpression extends Expression {
         String out = null;
 
         if(hasCharacterConstant())
-            out = characterConstant.toString() + "";
+            out = characterConstant.toString();
         else if(hasIdentifier())
             out = identifier.toString();
         else if(hasIntegerConstant())
-            out = integerConstant + "";
+            out = integerConstant.toString();
         else if(hasStringLiteral())
             out = stringLiteral.toString();
         else if(hasExpression())

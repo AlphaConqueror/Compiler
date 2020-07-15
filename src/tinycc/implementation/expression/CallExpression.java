@@ -57,16 +57,23 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public void checkSemantics() {}
-
-    @Override
     public Type getType() {
         return functionReference.getType();
     }
 
     @Override
-    public Type eval() {
-        return null;
+    public Expression clone() {
+        List<Expression> argClone = new ArrayList<>();
+
+        for(Expression arg : arguments)
+            argClone.add(arg.clone());
+
+        CallExpression callExpression = new CallExpression(functionReference.clone(), argClone);
+
+        callExpression.setLocatable(this.getLocatable());
+        callExpression.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
+
+        return callExpression;
     }
 
     @Override

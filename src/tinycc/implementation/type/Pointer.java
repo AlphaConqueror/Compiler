@@ -7,12 +7,12 @@ public class Pointer<T extends Type> extends Scalar {
 
     public Pointer(T type) {
         this.type = type;
-        this.array = (T[]) new Object[1];
+        this.array = (T[]) new Type[1];
     }
 
     public Pointer(T type, int size) {
         this.type = type;
-        this.array = (T[]) new Object[size];
+        this.array = (T[]) new Type[size];
     }
 
     public Type getType() {
@@ -44,10 +44,14 @@ public class Pointer<T extends Type> extends Scalar {
         if (this == obj)
             return true;
 
+        System.out.println(getClass().toString() + " ~ " + obj.getClass().toString());
+
         if (obj == null || getClass() != obj.getClass())
             return false;
 
         Pointer p = (Pointer) obj;
+
+        System.out.println(toString() + " ~ " + p.toString());
 
         return p.getType().getClass() == type.getClass();
     }

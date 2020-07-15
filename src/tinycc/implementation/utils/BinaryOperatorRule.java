@@ -1,7 +1,9 @@
 package tinycc.implementation.utils;
 
-import tinycc.implementation.type.*;
 import tinycc.implementation.type.Integer;
+import tinycc.implementation.type.Pointer;
+import tinycc.implementation.type.Type;
+import tinycc.implementation.type.WholeNumber;
 
 public enum BinaryOperatorRule {
 

@@ -12,13 +12,20 @@ public class StringLiteral extends Type {
         this.string = string;
     }
 
+    public boolean hasString() {
+        return string != null;
+    }
+
     public String getString() {
         return string;
     }
 
     @Override
     public String toString() {
-        return "\"" + string + "\"";
+        if(hasString())
+            return "\"" + string + "\"";
+
+        return (new Pointer<>(new Character())).toString();
     }
 
     @Override
