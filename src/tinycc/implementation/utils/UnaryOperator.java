@@ -4,7 +4,8 @@ public enum UnaryOperator {
 
     POINT_TO("*"),
     ADDRESS_OF("&"),
-    SIZE_OF("sizeof");
+    SIZE_OF("sizeof"),
+    NOT("!");
 
     private final String identifier;
 

@@ -1,5 +1,6 @@
 package tinycc.implementation.utils;
 
+import tinycc.implementation.expression.BinaryExpression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Pointer;
 import tinycc.implementation.type.Type;
@@ -25,7 +26,9 @@ public enum BinaryOperatorRule {
     LE_INT_INT(BinaryOperator.LE, WholeNumber.class, WholeNumber.class, Integer.class),
     LE_POINTER_POINTER(BinaryOperator.LE, Pointer.class, Pointer.class, Integer.class, AdditionalRule.IDENTICAL_POINTER_CT),
     GE_INT_INT(BinaryOperator.GE, WholeNumber.class, WholeNumber.class, Integer.class),
-    GE_POINTER_POINTER(BinaryOperator.GE, Pointer.class, Pointer.class, Integer.class, AdditionalRule.IDENTICAL_POINTER_CT);
+    GE_POINTER_POINTER(BinaryOperator.GE, Pointer.class, Pointer.class, Integer.class, AdditionalRule.IDENTICAL_POINTER_CT),
+    AND_INT_INT(BinaryOperator.AND, Integer.class, Integer.class, Integer.class),
+    OR_INT_INT(BinaryOperator.OR, Integer.class, Integer.class, Integer.class);
 
     private final BinaryOperator binaryOperator;
     private final Class<? extends Type> LOperandClass, ROperandClass, resultTypeClass;

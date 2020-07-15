@@ -29,6 +29,6 @@ public class AssumeStatement extends Statement {
 
     @Override
     public String toString() {
-        return "_Assume(" + condition.toString() + ")";
+        return "_Assume(" + condition.toString() + ");";
     }
 }

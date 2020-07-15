@@ -71,13 +71,8 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 	public void testOwn() {
 		final String code = ""
 				+ "void foo(int a) {\n"
-				+ " return;\n"
-				+ "}\n"
-				+ "int bar(int a) {\n"
-				+ " return a;\n"
-				+ "}\n"
-				+ "int bar1(int a) {\n"
-				+ " return 1;\n"
+				+ " int i = 1;\n"
+				+ " _Assert(i > 1);"
 				+ "}\n";
 		runIntegrationTest("testOwn", code);
 	}

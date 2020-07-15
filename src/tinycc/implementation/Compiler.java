@@ -69,9 +69,7 @@ public class Compiler {
 		AST ast = ((AST) astFactory);
 		TranslationUnit translationUnit = ast.getTranslationUnit();
 
-		for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations()) {
-			System.out.println(externalDeclaration.toString());
-		}
+		generateCode(System.out);
 
 		translationUnit.checkSemantics();
 	}
@@ -93,7 +91,11 @@ public class Compiler {
 	 *          class. Only necessary if mentioned in the project description.
 	 */
 	public void generateCode(final PrintStream out) {
-		throw new UnsupportedOperationException("TODO: implement this");
+		AST ast = ((AST) astFactory);
+		TranslationUnit translationUnit = ast.getTranslationUnit();
+
+		for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations())
+			out.println(externalDeclaration.toString());
 	}
 
 	/**

@@ -29,6 +29,6 @@ public class AssertStatement extends Statement {
 
     @Override
     public String toString() {
-        return "_Assert(" + condition.toString() + ")";
+        return "_Assert(" + condition.toString() + ");";
     }
 }

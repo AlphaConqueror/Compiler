@@ -11,16 +11,26 @@ import java.util.Collection;
 
 public class WhileStatement extends Statement {
 
-    private final Expression condition, invariant, term;
+    private final Expression condition;
+    private Expression invariant, term; //optional
     private final Statement statement;
+
+    public WhileStatement(Expression condition, Statement statement) {
+        this.condition = condition;
+        this.statement = statement;
+    }
+
+    public WhileStatement(Expression condition, Statement statement, Expression invariant) {
+        this.condition = condition;
+        this.statement = statement;
+        this.invariant = invariant;
+    }
 
     public WhileStatement(Expression condition, Statement statement, Expression invariant, Expression term) {
         this.condition = condition;
         this.statement = statement;
         this.invariant = invariant;
         this.term = term;
-
-        //TODO: Bonus
     }
 
     public Expression getCondition() {
@@ -50,8 +60,12 @@ public class WhileStatement extends Statement {
     @Override
     public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
         condition.addEnvironmentalDeclarations(environmentalDeclarations);
-        invariant.addEnvironmentalDeclarations(environmentalDeclarations);
-        term.addEnvironmentalDeclarations(environmentalDeclarations);
+
+        if(hasInvariant())
+            invariant.addEnvironmentalDeclarations(environmentalDeclarations);
+        if(hasTerm())
+            term.addEnvironmentalDeclarations(environmentalDeclarations);
+
         statement.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
@@ -73,6 +87,9 @@ public class WhileStatement extends Statement {
 
     @Override
     public String toString() {
-        return "while(" + condition.toString() + ")\n" + statement.toString();
+        return "while(" + condition.toString() + ")\n"
+                + (hasInvariant() ? "_Invariant(" + invariant.toString() + ")\n" : "")
+                + (hasTerm() ? "_Term(" + term.toString() + ")\n" : "")
+                + statement.toString();
     }
 }

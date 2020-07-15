@@ -11,7 +11,9 @@ public enum BinaryOperator {
     GE("≥"),
     EQ("=="),
     ASSIGN("="),
-    BANG_EQ("!=");
+    BANG_EQ("!="),
+    AND("&&"),
+    OR("||");
 
     private final String symbol;
 

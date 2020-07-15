@@ -6,7 +6,8 @@ import tinycc.implementation.type.*;
 public enum UnaryOperatorRule {
     POINT_TO_POINTER(UnaryOperator.POINT_TO, Pointer.class, Scalar.class, AdditionalRule.COMPLETE_TYPE_POINTER),
     ADDRESS_OF_OBJECT(UnaryOperator.ADDRESS_OF, ObjectType.class, Pointer.class, AdditionalRule.COMPLETE_TYPE_ASSIGNABLE),
-    SIZE_OF_OBJECT(UnaryOperator.SIZE_OF, ObjectType.class, Integer.class, AdditionalRule.COMPLETE_TYPE);
+    SIZE_OF_OBJECT(UnaryOperator.SIZE_OF, ObjectType.class, Integer.class, AdditionalRule.COMPLETE_TYPE),
+    NOT_INT(UnaryOperator.NOT, Integer.class, Integer.class);
 
     private final UnaryOperator unaryOperator;
     private final Class<? extends Type> operandClass, resultTypeClass;
