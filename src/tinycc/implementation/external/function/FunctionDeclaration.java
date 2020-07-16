@@ -15,8 +15,6 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
         this.returnType = returnType;
         this.identifier = identifier;
 
-        checkForDuplicate(this.identifier);
-
         addEnvironmentalDeclaration(this);
     }
 
@@ -25,23 +23,22 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
         this.identifier = identifier;
         this.parameterList = parameterList;
 
-        checkForDuplicate(this.identifier);
-
         addEnvironmentalDeclaration(this);
     }
 
-    private void checkForDuplicate(Identifier identifier) {
-        boolean isUsed = false;
+    private boolean isDuplicate(Identifier identifier) {
+        int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
-                isUsed = true;
-                break;
+            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                useCounter++;
+
+                if(useCounter == 2)
+                    return true;
             }
         }
 
-        if(isUsed)
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+        return false;
     }
 
     public Type getReturnType() {
@@ -59,6 +56,12 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
 
     public ParameterList getParameterList() {
         return parameterList;
+    }
+
+    @Override
+    public void checkSemantics() {
+        if(isDuplicate(identifier))
+            throw new RuntimeException("Identifier '" + identifier.toString() + "' already in use.");
     }
 
     @Override

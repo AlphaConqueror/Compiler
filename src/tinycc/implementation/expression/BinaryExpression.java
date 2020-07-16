@@ -1,6 +1,7 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.diagnostic.Location;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Void;
 import tinycc.implementation.type.*;
@@ -58,7 +59,8 @@ public class BinaryExpression extends Expression {
         BinaryOperatorRule rule = getRule();
 
         if(rule == null)
-            throw new FatalCompilerError(firstExpression.getLocatable(), "Illegitimate binary operation '" + toString() + "'.");
+            throw new FatalCompilerError(new Location(getLocatable().getInputName(), getLocatable().getLine(), getLocatable().getColumn() + 2),
+                    "Illegitimate binary operation '" + toString() + "'.");
 
         switch (rule.getAdditionalRule()) {
             case COMPLETE_TYPE_POINTER:

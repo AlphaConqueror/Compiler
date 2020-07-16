@@ -19,8 +19,6 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         this.type = type;
         this.identifier = identifier;
 
-        checkForDuplicate(this.identifier);
-
         this.addEnvironmentalDeclaration(this);
     }
 
@@ -32,18 +30,19 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         this.addEnvironmentalDeclaration(this);
     }
 
-    private void checkForDuplicate(Identifier identifier) {
-        boolean isUsed = false;
+    private boolean isDuplicate(Identifier identifier) {
+        int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
-                isUsed = true;
-                break;
+            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                useCounter++;
+
+                if(useCounter == 2)
+                    return true;
             }
         }
 
-        if(isUsed)
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+        return false;
     }
 
     @Override
@@ -67,6 +66,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
     public void setExpression(Expression expression) {
         this.expression = expression;
 
+        this.addEnvironmentalDeclarations(this.getEnvironmentalDeclarations());
         checkSemantics();
     }
 
@@ -79,6 +79,9 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
     public void checkSemantics() {
         if(type instanceof Void)
             throw new FatalCompilerError(getLocatable(), "The declaration type is void.");
+
+        if(isDuplicate(identifier))
+            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
 
         if(hasExpression())
             expression.checkSemantics();

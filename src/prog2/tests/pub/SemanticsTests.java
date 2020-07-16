@@ -1,16 +1,15 @@
 package prog2.tests.pub;
 
-import static org.junit.Assert.fail;
-
-import java.io.StringReader;
-
 import org.junit.Test;
-
 import prog2.tests.CompilerTests;
 import prog2.tests.FatalCompilerError;
 import prog2.tests.PublicTest;
 import prog2.tests.SemanticsExercise;
 import tinycc.parser.Lexer;
+
+import java.io.StringReader;
+
+import static org.junit.Assert.fail;
 
 public class SemanticsTests extends CompilerTests implements PublicTest, SemanticsExercise {
 
@@ -70,9 +69,24 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 	@Test
 	public void testOwn() {
 		final String code = ""
-				+ "void foo(int a) {\n"
-				+ " int i = 1;\n"
-				+ " _Assert(i > 1);"
+				+ "int z;\n"
+				+ "char w;\n"
+				+ "char *v;\n"
+				+ "void swap(int *a, int *b);\n"
+				+ "int foo(int x, int y) {\n"
+				+ "	x = x + (y * z) / sizeof(z) - (0 - 5);\n"
+				+ "	y = 1337;\n"
+				+ "	if ((z = 1000) < x) {\n" /* yes, this is a valid expression */
+				+ "		return x;\n"
+				+ "	} else {\n"
+				+ "		swap(&x, &y);\n"
+				+ "		return foo(x, y);\n"
+				+ "	}\n"
+				+ "}\n"
+				+ "int main() {\n"
+				+ "	v = \"foobar\";\n"
+				+ "	w = *(v + 3);\n"
+				+ "	return foo(42, 42);\n"
 				+ "}\n";
 		runIntegrationTest("testOwn", code);
 	}

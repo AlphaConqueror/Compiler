@@ -1,6 +1,7 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.diagnostic.Location;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Pointer;
 import tinycc.implementation.type.Type;
@@ -67,7 +68,8 @@ public class UnaryExpression extends Expression {
         UnaryOperatorRule rule = getRule();
 
         if(rule == null)
-            throw new FatalCompilerError(expression.getLocatable(), "Illegitimate unary operation '" + toString() + "'.");
+            throw new FatalCompilerError(new Location(expression.getLocatable().getInputName(), expression.getLocatable().getLine(), expression.getLocatable().getColumn() - 1),
+                    "Illegitimate unary operation '" + toString() + "'.");
 
         switch (rule.getAdditionalRule()) {
             case COMPLETE_TYPE_POINTER:

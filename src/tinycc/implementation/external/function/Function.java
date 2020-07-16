@@ -24,7 +24,6 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         this.identifier = identifier;
         this.block = block;
 
-        checkForDuplicate(this.identifier);
         addEnvironmentalDeclaration(this);
     }
 
@@ -34,25 +33,25 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         this.namedParameterList = namedParameterList;
         this.block = block;
 
-        checkForDuplicate(this.identifier);
         addEnvironmentalDeclaration(this);
 
         for(NamedParameter namedParameter : this.namedParameterList.getNamedParameters())
-            addEnvironmentalDeclaration(new Declaration(namedParameter.getType(), namedParameter.getIdentifier()));
+            this.block.addEnvironmentalDeclaration(new Declaration(namedParameter.getType(), namedParameter.getIdentifier()));
     }
 
-    private void checkForDuplicate(Identifier identifier) {
-        boolean isUsed = false;
+    private boolean isDuplicate(Identifier identifier) {
+        int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
-                isUsed = true;
-                break;
+            if(!(environmentalDeclaration instanceof FunctionDeclaration) && environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                useCounter++;
+
+                if(useCounter == 2)
+                    return true;
             }
         }
 
-        if(isUsed)
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+        return false;
     }
 
     public Type getReturnType() {
@@ -84,6 +83,9 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     @Override
     public void checkSemantics() {
         block.checkSemantics();
+
+        if(isDuplicate(identifier))
+            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
 
         ReturnType hasReturnType = block.getReturnType(returnType);
 

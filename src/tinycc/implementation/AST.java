@@ -277,7 +277,7 @@ public class AST implements ASTFactory {
                 environmentalDeclarations.add(environmentalDeclaration);
 
             for(ExternalDeclaration externalDeclaration : translationUnit.getExternalDeclarations()) {
-                if(externalDeclaration.getIdentifier().toString().equals(function.getIdentifier().toString())) {
+                if(externalDeclaration instanceof FunctionDeclaration && externalDeclaration.getIdentifier().toString().equals(function.getIdentifier().toString())) {
                     environmentalDeclarations.remove(externalDeclaration);
                     break;
                 }

@@ -61,6 +61,21 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
         checkSemantics();
     }
 
+    private boolean isDuplicate(Identifier identifier) {
+        int useCounter = 0;
+
+        for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
+            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                useCounter++;
+
+                if(useCounter == 2)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
         if(hasExpression())
@@ -69,6 +84,9 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
 
     @Override
     public void checkSemantics() {
+        if(isDuplicate(identifier))
+            throw new RuntimeException("Identifier '" + identifier.toString() + "' already in use.");
+
         if(hasExpression()) {
             if(type.getClass() != expression.getType().getClass())
                 throw new FatalCompilerError(expression.getLocatable(), "The declaration type and the expression type are not equal.");
