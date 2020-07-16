@@ -3,7 +3,6 @@ package tinycc.implementation.expression;
 import prog2.tests.FatalCompilerError;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
-import tinycc.implementation.external.function.NamedParameter;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 

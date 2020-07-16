@@ -5,7 +5,7 @@ import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.Collection;
 
@@ -81,8 +81,8 @@ public class WhileStatement extends Statement {
     }
 
     @Override
-    public ReturnType getReturnType(Type type) {
-        return statement.getReturnType(type);
+    public ReturnInfo getReturnInfo(Type type) {
+        return statement.getReturnInfo(type);
     }
 
     @Override

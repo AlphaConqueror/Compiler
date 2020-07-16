@@ -21,7 +21,6 @@ import tinycc.parser.Token;
 import tinycc.parser.TokenKind;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AST implements ASTFactory {
@@ -55,7 +54,7 @@ public class AST implements ASTFactory {
     public Statement createDeclarationStatement(Type type, Token name, Expression init) {
         Declaration declaration = new Declaration(type, new Identifier(name.getText()), init);
 
-        declaration.setLocatable(new Location(name.getInputName(), name.getLine(), name.getColumn()));
+        declaration.setLocatable(getTokenLocation(name));
 
         return declaration;
     }
@@ -175,7 +174,7 @@ public class AST implements ASTFactory {
         else
             expression = new AssignExpression(left, right);
 
-        expression.setLocatable(new Location(operator.getInputName(), operator.getLine(), operator.getColumn()));
+        expression.setLocatable(getTokenLocation(operator));
 
         return expression;
     }
@@ -184,7 +183,7 @@ public class AST implements ASTFactory {
     public Expression createCallExpression(Token token, Expression callee, List<Expression> arguments) {
         CallExpression callExpression = new CallExpression(callee, arguments);
 
-        callExpression.setLocatable(new Location(token.getInputName(), token.getLine(), token.getColumn()));
+        callExpression.setLocatable(getTokenLocation(token));
 
         return callExpression;
     }
@@ -193,7 +192,7 @@ public class AST implements ASTFactory {
     public Expression createConditionalExpression(Token token, Expression condition, Expression consequence, Expression alternative) {
         ConditionalExpression conditionalExpression = new ConditionalExpression(condition, consequence, alternative);
 
-        conditionalExpression.setLocatable(new Location(token.getInputName(), token.getLine(), token.getColumn()));
+        conditionalExpression.setLocatable(getTokenLocation(token));
 
         return conditionalExpression;
     }
@@ -210,7 +209,7 @@ public class AST implements ASTFactory {
 
         UnaryExpression unaryExpression = new UnaryExpression(unaryOperator, postfix, operand);
 
-        unaryExpression.setLocatable(new Location(operator.getInputName(), operator.getLine(), operator.getColumn()));
+        unaryExpression.setLocatable(getTokenLocation(operator));
 
         return unaryExpression;
     }
@@ -236,7 +235,7 @@ public class AST implements ASTFactory {
                 break;
         }
 
-        primaryExpression.setLocatable(new Location(token.getInputName(), token.getLine(), token.getColumn()));
+        primaryExpression.setLocatable(getTokenLocation(token));
 
         return primaryExpression;
     }
@@ -247,7 +246,7 @@ public class AST implements ASTFactory {
 
         if(type instanceof FunctionType) {
             FunctionType functionType = (FunctionType) type;
-            List<Parameter> parameters = new LinkedList<>();
+            List<Parameter> parameters = new ArrayList<>();
 
             for(Type parameterType : functionType.getParameters())
                 parameters.add(new Parameter(parameterType));
@@ -290,5 +289,9 @@ public class AST implements ASTFactory {
 
     public TranslationUnit getTranslationUnit() {
         return translationUnit;
+    }
+
+    private Location getTokenLocation(Token token) {
+        return new Location(token.getInputName(), token.getLine(), token.getColumn());
     }
 }

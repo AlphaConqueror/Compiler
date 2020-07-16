@@ -81,7 +81,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
             throw new FatalCompilerError(getLocatable(), "The declaration type is void.");
 
         if(isDuplicate(identifier))
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+            throw new FatalCompilerError(getLocatable(), "Identifier '" + identifier.toString() + "' is already in use.");
 
         if(hasExpression())
             expression.checkSemantics();

@@ -2,7 +2,7 @@ package tinycc.implementation.statement;
 
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,15 +46,15 @@ public class Block extends Statement {
     }
 
     @Override
-    public ReturnType getReturnType(Type type) {
+    public ReturnInfo getReturnInfo(Type type) {
         for(Statement statement : statements) {
-            ReturnType returnType = statement.getReturnType(type);
+            ReturnInfo returnInfo = statement.getReturnInfo(type);
 
-            if(returnType == ReturnType.TRUE || returnType == ReturnType.NO_RETURN)
-                return returnType;
+            if(returnInfo.getReturnType() != ReturnInfo.ReturnType.NO_RETURN)
+                return returnInfo;
         }
 
-        return ReturnType.FALSE;
+        return new ReturnInfo(ReturnInfo.ReturnType.NO_RETURN);
     }
 
     @Override

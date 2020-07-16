@@ -1,6 +1,7 @@
 package tinycc.implementation.external.function;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.diagnostic.Location;
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.statement.Block;
 import tinycc.implementation.statement.Declaration;
@@ -8,7 +9,7 @@ import tinycc.implementation.type.Type;
 import tinycc.implementation.type.Void;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.Collection;
 
@@ -87,15 +88,16 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         if(isDuplicate(identifier))
             throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
 
-        ReturnType hasReturnType = block.getReturnType(returnType);
+        ReturnInfo returnInfo = block.getReturnInfo(returnType);
 
-        if(returnType.toString().equals((new Void()).toString())) {
-            if(hasReturnType == ReturnType.TRUE)
-                throw new FatalCompilerError(block.getLocatable(), "Detected return statement in void type function.");
-        } else if(hasReturnType == ReturnType.FALSE)
+        if(returnType.toString().equals((new Void()).toString())  && returnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE)
+            throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement in void type function.");
+        if(returnInfo.getReturnType() == ReturnInfo.ReturnType.FALSE_TYPE)
+            throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement with the wrong type.");
+        if(!returnType.toString().equals((new Void()).toString()) && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE)
+            throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement without value.");
+        if(!returnType.toString().equals((new Void()).toString()) && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
             throw new FatalCompilerError(block.getLocatable(), "No return statement detected.");
-        else if(hasReturnType == ReturnType.NO_RETURN)
-            throw new FatalCompilerError(block.getLocatable(), "Detected return statement without value.");
     }
 
     @Override

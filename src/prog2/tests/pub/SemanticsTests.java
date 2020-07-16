@@ -69,24 +69,13 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 	@Test
 	public void testOwn() {
 		final String code = ""
-				+ "int z;\n"
-				+ "char w;\n"
-				+ "char *v;\n"
-				+ "void swap(int *a, int *b);\n"
-				+ "int foo(int x, int y) {\n"
-				+ "	x = x + (y * z) / sizeof(z) - (0 - 5);\n"
-				+ "	y = 1337;\n"
-				+ "	if ((z = 1000) < x) {\n" /* yes, this is a valid expression */
-				+ "		return x;\n"
-				+ "	} else {\n"
-				+ "		swap(&x, &y);\n"
-				+ "		return foo(x, y);\n"
-				+ "	}\n"
-				+ "}\n"
+				+ "int swap();\n"
 				+ "int main() {\n"
-				+ "	v = \"foobar\";\n"
-				+ "	w = *(v + 3);\n"
-				+ "	return foo(42, 42);\n"
+				+ " swap = 1;\n"
+				+ "	if(1)\n"
+				+ "  return 1;\n"
+				+ " else\n"
+				+ "  return 0;\n"
 				+ "}\n";
 		runIntegrationTest("testOwn", code);
 	}

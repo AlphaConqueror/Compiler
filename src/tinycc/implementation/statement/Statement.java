@@ -3,7 +3,7 @@ package tinycc.implementation.statement;
 import tinycc.diagnostic.Locatable;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,10 +20,6 @@ public abstract class Statement {
 
 	private Locatable locatable;
 	private final List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
-
-	public boolean hasLocatable() {
-		return locatable != null;
-	}
 
 	public Locatable getLocatable() {
 		return locatable;
@@ -54,8 +50,8 @@ public abstract class Statement {
 
 	public void checkSemantics() {}
 
-	public ReturnType getReturnType(Type type) {
-		return ReturnType.FALSE;
+	public ReturnInfo getReturnInfo(Type type) {
+		return new ReturnInfo(ReturnInfo.ReturnType.NO_RETURN);
 	}
 
 	/**

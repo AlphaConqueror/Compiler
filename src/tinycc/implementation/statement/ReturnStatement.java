@@ -2,8 +2,9 @@ package tinycc.implementation.statement;
 
 import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.type.Void;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.Collection;
 
@@ -40,11 +41,19 @@ public class ReturnStatement extends Statement {
 
 
     @Override
-    public ReturnType getReturnType(Type type) {
-        if(hasResult())
-            return result.getType().toString().equals(type.toString()) ? ReturnType.TRUE : ReturnType.FALSE;
+    public ReturnInfo getReturnInfo(Type type) {
+        ReturnInfo returnInfo;
 
-        return ReturnType.NO_RETURN;
+        if(hasResult()) {
+            returnInfo = result.getType().toString().equals(type.toString()) ? new ReturnInfo(ReturnInfo.ReturnType.TRUE) : new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE);
+
+            return returnInfo.setLocatable(result.getLocatable());
+        }
+
+        if(type.toString().equals((new Void()).toString()))
+            return new ReturnInfo(ReturnInfo.ReturnType.NO_VALUE).setLocatable(this.getLocatable());
+
+        return new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE).setLocatable(this.getLocatable());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package tinycc.implementation.utils;
 
-import tinycc.implementation.expression.BinaryExpression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Pointer;
 import tinycc.implementation.type.Type;

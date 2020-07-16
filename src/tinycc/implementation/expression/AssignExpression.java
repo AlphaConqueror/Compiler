@@ -1,6 +1,8 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.implementation.external.function.Function;
+import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 
@@ -33,6 +35,13 @@ public class AssignExpression extends Expression {
     public void checkSemantics() {
         left.checkSemantics();
         right.checkSemantics();
+
+        for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+            if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
+                if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
+                    throw new FatalCompilerError(left.getLocatable(), "A function can not be redeclared.");
+            }
+        }
 
         if(!left.getType().toString().equals(right.getType().toString()))
             throw new FatalCompilerError(right.getLocatable(), left.toString() + "(" + left.getType().toString() + ")" + " != "

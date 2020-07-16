@@ -4,8 +4,9 @@ import prog2.tests.FatalCompilerError;
 import tinycc.implementation.expression.Expression;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Type;
+import tinycc.implementation.type.Void;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
-import tinycc.implementation.utils.ReturnType;
+import tinycc.implementation.utils.ReturnInfo;
 
 import java.util.Collection;
 
@@ -67,14 +68,33 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public ReturnType getReturnType(Type type) {
-        ReturnType consequenceReturnType = consequence.getReturnType(type),
-                   alternativeReturnType = alternative.getReturnType(type);
+    public ReturnInfo getReturnInfo(Type type) {
+        ReturnInfo consequenceReturnInfo = consequence.getReturnInfo(type),
+                   alternativeReturnInfo = alternative.getReturnInfo(type);
 
-        if(consequenceReturnType == ReturnType.NO_RETURN || alternativeReturnType == ReturnType.NO_RETURN)
-            return ReturnType.NO_RETURN;
+        if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.FALSE_TYPE)
+            return consequenceReturnInfo;
+        if(alternativeReturnInfo.getReturnType() == ReturnInfo.ReturnType.FALSE_TYPE)
+            return alternativeReturnInfo;
 
-        return consequenceReturnType == alternativeReturnType ? ReturnType.TRUE : ReturnType.FALSE;
+        if(consequenceReturnInfo.getReturnType() == alternativeReturnInfo.getReturnType())
+            return consequenceReturnInfo;
+
+        if(type.toString().equals((new Void()).toString())) {
+            if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE || alternativeReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE) {
+                if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN || consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
+                    return consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN ? consequenceReturnInfo : alternativeReturnInfo;
+                if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE || consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE)
+                    return consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE ? consequenceReturnInfo : alternativeReturnInfo;
+            }
+
+            if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE || alternativeReturnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE) {
+                if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN || consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
+                    return consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN ? consequenceReturnInfo : alternativeReturnInfo;
+            }
+        }
+
+        return new ReturnInfo(ReturnInfo.ReturnType.NO_RETURN);
     }
 
     @Override
