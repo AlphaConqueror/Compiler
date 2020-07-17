@@ -2,6 +2,8 @@ package tinycc.implementation.external;
 
 import prog2.tests.FatalCompilerError;
 import tinycc.implementation.expression.Expression;
+import tinycc.implementation.external.function.Function;
+import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
@@ -89,6 +91,15 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
 
         if(hasExpression()) {
             expression.checkSemantics();
+
+            if(expression.isIdentifier()) {
+                for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+                    if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
+                        if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
+                            throw new FatalCompilerError(expression.getLocatable(), "The used identifier in the expression is not a correct function call.");
+                    }
+                }
+            }
 
             if(type.getClass() != expression.getType().getClass())
                 throw new FatalCompilerError(expression.getLocatable(), "The declaration type and the expression type are not equal.");

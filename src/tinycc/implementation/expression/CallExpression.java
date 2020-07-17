@@ -68,9 +68,6 @@ public class CallExpression extends Expression {
     @Override
     public void checkSemantics() {
         boolean hasBeenDeclared = false;
-        Location location = new Location(functionReference.getLocatable().getInputName(), functionReference.getLocatable().getLine(),
-                            functionReference.getLocatable().getColumn() + 3);
-
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
             if(environmentalDeclaration.getIdentifier().toString().equals(functionReference.toString())) {
                 hasBeenDeclared = true;
@@ -79,15 +76,15 @@ public class CallExpression extends Expression {
                     Function function = (Function) environmentalDeclaration;
 
                     if (function.getNamedParameterList().getNamedParameters().size() < arguments.size())
-                        throw new FatalCompilerError(functionReference.getLocatable(), "Called function with too few arguments."
+                        throw new FatalCompilerError(this.getLocatable(), "Called function with too few arguments."
                                 + " Right amount = " + function.getNamedParameterList().getNamedParameters().size() + " args, got " + arguments.size() + " args.");
                     if (function.getNamedParameterList().getNamedParameters().size() > arguments.size())
-                        throw new FatalCompilerError(functionReference.getLocatable(), "Called function with too many arguments."
+                        throw new FatalCompilerError(this.getLocatable(), "Called function with too many arguments."
                                 + " Right amount = " + function.getNamedParameterList().getNamedParameters().size() + " args, got " + arguments.size() + " args.");
 
                     for(int i = 0; i < function.getNamedParameterList().getNamedParameters().size(); i++) {
                         if(!function.getNamedParameterList().getNamedParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
-                            throw new FatalCompilerError(location, "Argument " + i + "'s type does not match the declared arguments type."
+                            throw new FatalCompilerError(this.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
                                     + " Right type = " + function.getNamedParameterList().getNamedParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");
                     }
@@ -95,15 +92,15 @@ public class CallExpression extends Expression {
                     FunctionDeclaration functionDeclaration = (FunctionDeclaration) environmentalDeclaration;
 
                     if (functionDeclaration.getParameterList().getParameters().size() < arguments.size())
-                        throw new FatalCompilerError(functionReference.getLocatable(), "Called function with too few arguments."
+                        throw new FatalCompilerError(this.getLocatable(), "Called function with too few arguments."
                                 + " Right amount = " + functionDeclaration.getParameterList().getParameters().size() + " args, got " + arguments.size() + " args.");
                     if (functionDeclaration.getParameterList().getParameters().size() > arguments.size())
-                        throw new FatalCompilerError(functionReference.getLocatable(), "Called function with too many arguments."
+                        throw new FatalCompilerError(this.getLocatable(), "Called function with too many arguments."
                                 + " Right amount = " + functionDeclaration.getParameterList().getParameters().size() + " args, got " + arguments.size() + " args.");
 
                     for(int i = 0; i < functionDeclaration.getParameterList().getParameters().size(); i++) {
                         if(!functionDeclaration.getParameterList().getParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
-                            throw new FatalCompilerError(location, "Argument " + i + "'s type does not match the declared arguments type."
+                            throw new FatalCompilerError(this.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
                                     + "Right type = " + functionDeclaration.getParameterList().getParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");
                     }

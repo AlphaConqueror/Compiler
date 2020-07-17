@@ -1,6 +1,7 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.diagnostic.Location;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
@@ -47,8 +48,8 @@ public class AssignExpression extends Expression {
             throw new FatalCompilerError(left.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");
 
         if(!left.getType().toString().equals(right.getType().toString()))
-            throw new FatalCompilerError(left.getLocatable(), left.toString() + "(" + left.getType().toString() + ")" + " != "
-                    + right.toString() + "(" + right.getType().toString() + ")");
+            throw new FatalCompilerError(this.getLocatable(),
+                    left.toString() + "(" + left.getType().toString() + ")" + " != " + right.toString() + "(" + right.getType().toString() + ")");
     }
 
     @Override

@@ -69,8 +69,10 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 	@Test
 	public void testOwn() {
 		final String code = ""
+				+ "int foo();"
 				+ "void test() {\n"
-				+ " \"a\" = 1;\n"
+				+ " int a;\n"
+				+ " &a = 1;\n"
 				+ "}\n";
 		runIntegrationTest("testOwn", code);
 	}

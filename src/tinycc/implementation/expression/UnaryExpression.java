@@ -2,6 +2,8 @@ package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
 import tinycc.diagnostic.Location;
+import tinycc.implementation.external.function.Function;
+import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.Pointer;
 import tinycc.implementation.type.Type;
@@ -93,6 +95,15 @@ public class UnaryExpression extends Expression {
                 break;
             default:
                 break;
+        }
+
+        if(unaryOperator == UnaryOperator.SIZE_OF && expression.isIdentifier()) {
+            for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+                if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
+                    if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
+                        throw new FatalCompilerError(expression.getLocatable(), "You can not get the size of a function.");
+                }
+            }
         }
     }
 

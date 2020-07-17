@@ -1,6 +1,8 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.implementation.external.function.Function;
+import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.StringLiteral;
@@ -171,7 +173,7 @@ public class PrimaryExpression extends Expression {
         else if(hasIntegerConstant())
             out = integerConstant.toString();
         else if(hasStringLiteral())
-            out = stringLiteral.toString();
+            out = "SL:" + stringLiteral.toString();
         else if(hasExpression())
             out = expression.toString();
 
