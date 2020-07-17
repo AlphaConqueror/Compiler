@@ -88,6 +88,8 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
             throw new RuntimeException("Identifier '" + identifier.toString() + "' already in use.");
 
         if(hasExpression()) {
+            expression.checkSemantics();
+
             if(type.getClass() != expression.getType().getClass())
                 throw new FatalCompilerError(expression.getLocatable(), "The declaration type and the expression type are not equal.");
         }

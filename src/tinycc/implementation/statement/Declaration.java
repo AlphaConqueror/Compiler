@@ -83,8 +83,13 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         if(isDuplicate(identifier))
             throw new FatalCompilerError(getLocatable(), "Identifier '" + identifier.toString() + "' is already in use.");
 
-        if(hasExpression())
+        if(hasExpression()) {
             expression.checkSemantics();
+
+            if(!type.toString().equals(expression.getType().toString()))
+                throw new FatalCompilerError(expression.getLocatable(), type.toString() + " != "
+                        + expression.toString() + "(" + expression.getType().toString() + ")");
+        }
     }
 
     @Override

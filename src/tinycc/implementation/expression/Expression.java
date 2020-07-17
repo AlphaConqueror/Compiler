@@ -45,6 +45,7 @@ public abstract class Expression {
 		updateEnvironment(environmentalDeclarations);
 	}
 
+	//DEBUG
 	public String getPrintedEnvironment() {
 		String out = "";
 
@@ -58,8 +59,11 @@ public abstract class Expression {
 		return "[" + out + "]";
 	}
 
-
 	public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
+
+	public boolean isIdentifier() {
+		return false;
+	}
 
 	public void checkSemantics() {}
 

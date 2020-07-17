@@ -75,7 +75,9 @@ public class UnaryExpression extends Expression {
             case COMPLETE_TYPE_POINTER:
                 if(expression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) expression.getType()))
-                        throw new FatalCompilerError(expression.getLocatable(), "Pointer does not point to a complete type.");
+                        throw new FatalCompilerError(new Location(expression.getLocatable().getInputName(), expression.getLocatable().getLine(),
+                                expression.getLocatable().getColumn() + 1),
+                                "Pointer does not point to a complete type. Got type " + ((Pointer) expression.getType()).getType() + ".");
                 }
                 break;
             case COMPLETE_TYPE:
@@ -87,7 +89,7 @@ public class UnaryExpression extends Expression {
                     throw new FatalCompilerError(expression.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
 
                 if(getDeclarationByIdentifier(expression.toString()) == null)
-                    throw new FatalCompilerError(expression.getLocatable(), "Expression is not assignable.");
+                    throw new FatalCompilerError(expression.getLocatable(), "Expression '" + expression.toString() + "' is not assignable.");
                 break;
             default:
                 break;
@@ -101,6 +103,16 @@ public class UnaryExpression extends Expression {
             return false;
 
         return true;
+    }
+
+    @Override
+    public boolean isIdentifier() {
+        UnaryOperatorRule rule = getRule();
+
+        if(rule.getUnaryOperator() == UnaryOperator.ADDRESS_OF || rule.getUnaryOperator() == UnaryOperator.POINT_TO)
+            return expression.isIdentifier();
+
+        return false;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.diagnostic.Location;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
@@ -67,6 +68,8 @@ public class CallExpression extends Expression {
     @Override
     public void checkSemantics() {
         boolean hasBeenDeclared = false;
+        Location location = new Location(functionReference.getLocatable().getInputName(), functionReference.getLocatable().getLine(),
+                            functionReference.getLocatable().getColumn() + 3);
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
             if(environmentalDeclaration.getIdentifier().toString().equals(functionReference.toString())) {
@@ -84,8 +87,8 @@ public class CallExpression extends Expression {
 
                     for(int i = 0; i < function.getNamedParameterList().getNamedParameters().size(); i++) {
                         if(!function.getNamedParameterList().getNamedParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
-                            throw new FatalCompilerError(functionReference.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
-                                    + "Right type = " + function.getNamedParameterList().getNamedParameters().get(i).getType().toString()
+                            throw new FatalCompilerError(location, "Argument " + i + "'s type does not match the declared arguments type."
+                                    + " Right type = " + function.getNamedParameterList().getNamedParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");
                     }
                 } else if (environmentalDeclaration instanceof FunctionDeclaration) {
@@ -100,7 +103,7 @@ public class CallExpression extends Expression {
 
                     for(int i = 0; i < functionDeclaration.getParameterList().getParameters().size(); i++) {
                         if(!functionDeclaration.getParameterList().getParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
-                            throw new FatalCompilerError(functionReference.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
+                            throw new FatalCompilerError(location, "Argument " + i + "'s type does not match the declared arguments type."
                                     + "Right type = " + functionDeclaration.getParameterList().getParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");
                     }

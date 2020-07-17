@@ -104,6 +104,11 @@ public class PrimaryExpression extends Expression {
     }
 
     @Override
+    public boolean isIdentifier() {
+        return hasIdentifier();
+    }
+
+    @Override
     public Type getType() {
         if(hasCharacterConstant())
             return new Character();

@@ -39,12 +39,15 @@ public class AssignExpression extends Expression {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
             if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
                 if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
-                    throw new FatalCompilerError(left.getLocatable(), "A function can not be redeclared.");
+                    throw new FatalCompilerError(right.getLocatable(), "A function can not be redeclared.");
             }
         }
 
+        if(!left.isIdentifier())
+            throw new FatalCompilerError(left.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");
+
         if(!left.getType().toString().equals(right.getType().toString()))
-            throw new FatalCompilerError(right.getLocatable(), left.toString() + "(" + left.getType().toString() + ")" + " != "
+            throw new FatalCompilerError(left.getLocatable(), left.toString() + "(" + left.getType().toString() + ")" + " != "
                     + right.toString() + "(" + right.getType().toString() + ")");
     }
 
