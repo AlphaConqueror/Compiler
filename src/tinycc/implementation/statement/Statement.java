@@ -46,6 +46,20 @@ public abstract class Statement {
 		updateEnvironment(environmentalDeclarations);
 	}
 
+	//DEBUG
+	public String getPrintedEnvironment() {
+		String out = "";
+
+		for(int i = 0; i < environmentalDeclarations.size(); i++) {
+			out += environmentalDeclarations.get(i).getIdentifier();
+
+			if(i < environmentalDeclarations.size() - 1)
+				out += ",";
+		}
+
+		return "[" + out + "]";
+	}
+
 	public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
 
 	public void checkSemantics() {}

@@ -70,7 +70,7 @@ public class IfStatement extends Statement {
     @Override
     public ReturnInfo getReturnInfo(Type type) {
         ReturnInfo consequenceReturnInfo = consequence.getReturnInfo(type),
-                   alternativeReturnInfo = alternative.getReturnInfo(type);
+                   alternativeReturnInfo = hasAlternative() ? alternative.getReturnInfo(type) : new ReturnInfo(ReturnInfo.ReturnType.TRUE);
 
         if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.FALSE_TYPE)
             return consequenceReturnInfo;

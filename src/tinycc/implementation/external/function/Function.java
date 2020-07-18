@@ -1,7 +1,6 @@
 package tinycc.implementation.external.function;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.diagnostic.Location;
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.statement.Block;
 import tinycc.implementation.statement.Declaration;
@@ -43,8 +42,23 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     private boolean isDuplicate(Identifier identifier) {
         int useCounter = 0;
 
-        for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
+        for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
             if(!(environmentalDeclaration instanceof FunctionDeclaration) && environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                useCounter++;
+
+                if(useCounter == 2)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isDuplicateArgumentName(Identifier identifier) {
+        int useCounter = 0;
+
+        for(EnvironmentalDeclaration environmentalDeclaration : block.getEnvironmentalDeclarations()) {
+            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
                 useCounter++;
 
                 if(useCounter == 2)
@@ -83,10 +97,15 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
 
     @Override
     public void checkSemantics() {
-        block.checkSemantics();
-
         if(isDuplicate(identifier))
             throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+
+        for(int i = 0; i < namedParameterList.getNamedParameters().size(); i++) {
+            if(isDuplicateArgumentName(namedParameterList.getNamedParameters().get(i).getIdentifier()))
+                throw new RuntimeException("Identifier '" + namedParameterList.getNamedParameters().get(i).getIdentifier().toString() + "' of argument " + i + " is already in use.");
+        }
+
+        block.checkSemantics();
 
         ReturnInfo returnInfo = block.getReturnInfo(returnType);
 

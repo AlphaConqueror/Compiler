@@ -70,16 +70,15 @@ public class UnaryExpression extends Expression {
         UnaryOperatorRule rule = getRule();
 
         if(rule == null)
-            throw new FatalCompilerError(new Location(expression.getLocatable().getInputName(), expression.getLocatable().getLine(), expression.getLocatable().getColumn() - 1),
+            throw new FatalCompilerError(this.getLocatable(),
                     "Illegitimate unary operation '" + toString() + "'.");
 
         switch (rule.getAdditionalRule()) {
             case COMPLETE_TYPE_POINTER:
                 if(expression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) expression.getType()))
-                        throw new FatalCompilerError(new Location(expression.getLocatable().getInputName(), expression.getLocatable().getLine(),
-                                expression.getLocatable().getColumn() + 1),
-                                "Pointer does not point to a complete type. Got type " + ((Pointer) expression.getType()).getType() + ".");
+                        throw new FatalCompilerError(this.getLocatable(),
+                                "Unary expression: Pointer does not point to a complete type. Got type " + ((Pointer) expression.getType()).getType() + ".");
                 }
                 break;
             case COMPLETE_TYPE:

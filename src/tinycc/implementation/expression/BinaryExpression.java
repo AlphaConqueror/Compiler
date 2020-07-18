@@ -64,12 +64,12 @@ public class BinaryExpression extends Expression {
             case COMPLETE_TYPE_POINTER:
                 if(firstExpression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) firstExpression.getType()))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Pointer does not point to a complete type.");
+                        throw new FatalCompilerError(firstExpression.getLocatable(), "Binary expression: First expression pointer does not point to a complete type.");
                 }
 
                 if(secondExpression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) secondExpression.getType()))
-                        throw new FatalCompilerError(secondExpression.getLocatable(), "Pointer does not point to a complete type.");
+                        throw new FatalCompilerError(secondExpression.getLocatable(), "Binary expression: Second expression pointer does not point to a complete type.");
                 }
                 break;
             case IDENTICAL_POINTER_CT:
@@ -78,13 +78,13 @@ public class BinaryExpression extends Expression {
                             pointer2 = (Pointer) secondExpression.getType();
 
                     if (!isIdenticalPointerType(pointer1, pointer2))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Pointers do not have the same type.");
+                        throw new FatalCompilerError(this.getLocatable(), "Pointers do not have the same type.");
 
                     if(!pointsToCompleteType(pointer1))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Pointer does not point to a complete type.");
+                        throw new FatalCompilerError(firstExpression.getLocatable(), "Binary expression: First expression pointer does not point to a complete type.");
 
                     if(!pointsToCompleteType(pointer2))
-                        throw new FatalCompilerError(secondExpression.getLocatable(), "Pointer does not point to a complete type.");
+                        throw new FatalCompilerError(secondExpression.getLocatable(), "Binary expression: Second expression pointer does not point to a complete type.");
                 }
                 break;
             case IP_VOID_NULL_POINTER:
@@ -93,13 +93,15 @@ public class BinaryExpression extends Expression {
                             pointer2 = (Pointer) secondExpression.getType();
 
                     if (!isIdenticalPointerType(pointer1, pointer2))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Pointers do not have the same type.");
+                        throw new FatalCompilerError(this.getLocatable(), "Pointers do not have the same type.");
 
                     if(pointer1.getType().getClass() != (new Void()).getClass() && pointer1.getInnerType() != null)
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Pointer does not equal a void pointer, nor a null pointer.");
+                        throw new FatalCompilerError(firstExpression.getLocatable(),
+                                "Binary expression: First expression pointer does not equal a void pointer, nor a null pointer.");
 
                     if(pointer2.getType().getClass() != (new Void()).getClass() && pointer2.getInnerType() != null)
-                        throw new FatalCompilerError(secondExpression.getLocatable(), "Pointer does not equal a void pointer, nor a null pointer.");
+                        throw new FatalCompilerError(secondExpression.getLocatable(),
+                                "Binary expression: Second expression pointer does not equal a void pointer, nor a null pointer.");
                 }
                 break;
             default:
@@ -155,6 +157,8 @@ public class BinaryExpression extends Expression {
 
     @Override
     public String toString() {
-        return "(" + firstExpression.toString() + " " + binaryOperator.toString() + " " + secondExpression.toString() + ")";
+        return "(" + firstExpression.toString()
+                + " " + binaryOperator.toString()
+                + " " + secondExpression.toString() + ")";
     }
 }

@@ -96,7 +96,9 @@ public class PrimaryExpression extends Expression {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
                 if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
                     identifierExists = true;
-                    break;
+
+                    if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
+                        throw new FatalCompilerError(this.getLocatable(), "The used identifier in the expression is not a correct function call.");
                 }
             }
 

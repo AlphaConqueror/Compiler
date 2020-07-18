@@ -88,15 +88,6 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         if(hasExpression()) {
             expression.checkSemantics();
 
-            if(expression.isIdentifier()) {
-                for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-                    if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
-                        if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
-                            throw new FatalCompilerError(expression.getLocatable(), "The used identifier in the expression is not a correct function call.");
-                    }
-                }
-            }
-
             if(!type.toString().equals(expression.getType().toString()))
                 throw new FatalCompilerError(this.getLocatable(), type.toString() + " != "
                         + expression.toString() + "(" + expression.getType().toString() + ")");
