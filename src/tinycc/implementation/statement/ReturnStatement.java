@@ -47,7 +47,7 @@ public class ReturnStatement extends Statement {
         if(hasResult()) {
             returnInfo = result.getType().toString().equals(type.toString()) ? new ReturnInfo(ReturnInfo.ReturnType.TRUE) : new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE);
 
-            return returnInfo.setLocatable(result.getLocatable());
+            return returnInfo.setLocatable(this.getLocatable());
         }
 
         if(type.toString().equals((new Void()).toString()))

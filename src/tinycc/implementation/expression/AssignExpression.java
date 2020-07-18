@@ -1,7 +1,6 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.diagnostic.Location;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
@@ -40,12 +39,12 @@ public class AssignExpression extends Expression {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
             if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
                 if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
-                    throw new FatalCompilerError(right.getLocatable(), "A function can not be redeclared.");
+                    throw new FatalCompilerError(this.getLocatable(), "A function can not be redeclared.");
             }
         }
 
         if(!left.isIdentifier())
-            throw new FatalCompilerError(left.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");
+            throw new FatalCompilerError(this.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");
 
         if(!left.getType().toString().equals(right.getType().toString()))
             throw new FatalCompilerError(this.getLocatable(),

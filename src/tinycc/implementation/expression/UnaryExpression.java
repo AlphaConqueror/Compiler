@@ -84,14 +84,14 @@ public class UnaryExpression extends Expression {
                 break;
             case COMPLETE_TYPE:
                 if(!(expression.getType() instanceof WholeNumber))
-                    throw new FatalCompilerError(expression.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
+                    throw new FatalCompilerError(this.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
                 break;
             case COMPLETE_TYPE_ASSIGNABLE:
                 if(!(expression.getType() instanceof WholeNumber))
-                    throw new FatalCompilerError(expression.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
+                    throw new FatalCompilerError(this.getLocatable(), "Expression is not a complete type. Got type " + expression.getType().toString() + ".");
 
                 if(getDeclarationByIdentifier(expression.toString()) == null)
-                    throw new FatalCompilerError(expression.getLocatable(), "Expression '" + expression.toString() + "' is not assignable.");
+                    throw new FatalCompilerError(this.getLocatable(), "Expression '" + expression.toString() + "' is not assignable.");
                 break;
             default:
                 break;
@@ -101,7 +101,7 @@ public class UnaryExpression extends Expression {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
                 if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
                     if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
-                        throw new FatalCompilerError(expression.getLocatable(), "You can not get the size of a function.");
+                        throw new FatalCompilerError(this.getLocatable(), "You can not get the size of a function.");
                 }
             }
         }

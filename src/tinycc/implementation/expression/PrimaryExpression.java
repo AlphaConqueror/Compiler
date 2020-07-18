@@ -173,7 +173,7 @@ public class PrimaryExpression extends Expression {
         else if(hasIntegerConstant())
             out = integerConstant.toString();
         else if(hasStringLiteral())
-            out = "SL:" + stringLiteral.toString();
+            out = stringLiteral.toString();
         else if(hasExpression())
             out = expression.toString();
 
