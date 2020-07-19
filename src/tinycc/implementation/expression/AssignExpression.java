@@ -1,8 +1,10 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
+import tinycc.implementation.external.GlobalVariable;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
+import tinycc.implementation.statement.Declaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 
@@ -61,6 +63,15 @@ public class AssignExpression extends Expression {
 
     @Override
     public Type eval() {
+        for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
+            if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
+                if(environmentalDeclaration instanceof GlobalVariable)
+                    ((GlobalVariable) environmentalDeclaration).setExpression(right);
+                else
+                    ((Declaration) environmentalDeclaration).setExpression(right);
+            }
+        }
+
         return right.eval();
     }
 

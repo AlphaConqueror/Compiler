@@ -71,7 +71,6 @@ public class SemanticsTests extends CompilerTests implements PublicTest, Semanti
 		final String code = ""
 				+ "int foo();"
 				+ "void test(char* a) {\n"
-				+ " int b;\n"
 				+ " b = foo;\n"
 				+ "}\n";
 		runIntegrationTest("testOwn", code);

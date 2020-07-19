@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class Statement {
 
 	private Locatable locatable;
-	private final List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
+	private List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
 
 	public Locatable getLocatable() {
 		return locatable;
@@ -31,6 +31,12 @@ public abstract class Statement {
 
 	public List<EnvironmentalDeclaration> getEnvironmentalDeclarations() {
 		return environmentalDeclarations;
+	}
+
+	public List<EnvironmentalDeclaration> setEnvironmentalDeclarations(Collection<EnvironmentalDeclaration> environmentalDeclarations) {
+		this.environmentalDeclarations = new ArrayList<>(environmentalDeclarations);
+
+		return this.environmentalDeclarations;
 	}
 
 	public void addEnvironmentalDeclaration(EnvironmentalDeclaration environmentalDeclaration) {

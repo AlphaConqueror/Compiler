@@ -91,7 +91,10 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
             expression.checkSemantics();
 
             if(type.getClass() != expression.getType().getClass())
-                throw new FatalCompilerError(expression.getLocatable(), "The declaration type and the expression type are not equal.");
+                throw new FatalCompilerError(this.getLocatable(), "The declaration type and the expression type are not equal.");
+
+            if(expression.isWrongCalledFunction())
+                throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
         }
     }
 

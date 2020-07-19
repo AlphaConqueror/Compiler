@@ -1,5 +1,6 @@
 package tinycc.implementation.external.function;
 
+import prog2.tests.FatalCompilerError;
 import tinycc.implementation.external.ExternalDeclaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
@@ -61,7 +62,7 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
     @Override
     public void checkSemantics() {
         if(isDuplicate(identifier))
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' already in use.");
+            throw new FatalCompilerError(this.getLocatable(), "Identifier '" + identifier.toString() + "' already in use.");
     }
 
     @Override

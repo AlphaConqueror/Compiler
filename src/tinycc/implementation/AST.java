@@ -255,6 +255,7 @@ public class AST implements ASTFactory {
         } else
             externalDeclaration = new GlobalVariable(type, new Identifier(name.getText()));
 
+        externalDeclaration.setLocatable(getTokenLocation(name));
         externalDeclaration.addEnvironmentalDeclarations(translationUnit.getLastEnvironmentalDeclarations());
 
         translationUnit.addExternalDeclaration(externalDeclaration);
@@ -282,7 +283,9 @@ public class AST implements ASTFactory {
                 }
             }
 
+            function.setLocatable(getTokenLocation(name));
             function.addEnvironmentalDeclarations(environmentalDeclarations);
+
             translationUnit.addExternalDeclaration(function);
         }
     }

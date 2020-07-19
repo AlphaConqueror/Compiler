@@ -95,9 +95,6 @@ public class UnaryExpression extends Expression {
                 break;
         }
 
-        if(expression.isWrongCalledFunction())
-            throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
-
         if(unaryOperator == UnaryOperator.SIZE_OF && expression.isIdentifier()) {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
                 if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
@@ -106,6 +103,9 @@ public class UnaryExpression extends Expression {
                 }
             }
         }
+
+        if(expression.isWrongCalledFunction())
+            throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {

@@ -11,7 +11,7 @@ public enum BinaryOperator {
     GE("≥"),
     EQ("=="),
     ASSIGN("="),
-    BANG_EQ("!="),
+    NOT_EQ("!="),
     AND("&&"),
     OR("||");
 

@@ -1,5 +1,6 @@
 package tinycc.implementation.external;
 
+import tinycc.diagnostic.Locatable;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
@@ -11,7 +12,16 @@ import java.util.List;
 
 public abstract class ExternalDeclaration implements EnvironmentalDeclaration {
 
+    private Locatable locatable;
     private final List<EnvironmentalDeclaration> environmentalDeclarations = new ArrayList<>();
+
+    public Locatable getLocatable() {
+        return locatable;
+    }
+
+    public void setLocatable(Locatable locatable) {
+        this.locatable = locatable;
+    }
 
     public List<EnvironmentalDeclaration> getEnvironmentalDeclarations() {
         return environmentalDeclarations;

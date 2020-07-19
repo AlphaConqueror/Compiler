@@ -78,17 +78,19 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
 
     public void checkSemantics() {
         if(type instanceof Void)
-            throw new FatalCompilerError(getLocatable(), "The declaration type is void.");
+            throw new FatalCompilerError(this.getLocatable(), "The declaration type is void.");
 
         if(isDuplicate(identifier))
-            throw new FatalCompilerError(getLocatable(), "Identifier '" + identifier.toString() + "' is already in use.");
+            throw new FatalCompilerError(this.getLocatable(), "Identifier '" + identifier.toString() + "' is already in use.");
 
         if(hasExpression()) {
             expression.checkSemantics();
 
             if(!type.toString().equals(expression.getType().toString()))
-                throw new FatalCompilerError(this.getLocatable(), type.toString() + " != "
-                        + expression.toString() + "(" + expression.getType().toString() + ")");
+                throw new FatalCompilerError(expression.getLocatable(), type.toString() + " != " + expression.toString() + "(" + expression.getType().toString() + ")");
+
+            if(expression.isWrongCalledFunction())
+                throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
         }
     }
 

@@ -34,6 +34,12 @@ public class Pointer<T extends Type> extends Scalar {
         this.array = array;
     }
 
+    public Integer add(WholeNumber wholeNumber) {
+        int a = (wholeNumber instanceof Character) ? java.lang.Character.getNumericValue(((Character) wholeNumber).getCharacter()) : ((Integer) wholeNumber).getInteger();
+
+        return new Integer();
+    }
+
     @Override
     public String toString() {
         return type.toString() + "*";

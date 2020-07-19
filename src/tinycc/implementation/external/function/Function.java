@@ -98,11 +98,11 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
     @Override
     public void checkSemantics() {
         if(isDuplicate(identifier))
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
+            throw new FatalCompilerError(this.getLocatable(), "Identifier '" + identifier.toString() + "' is already in use.");
 
         for(int i = 0; i < namedParameterList.getNamedParameters().size(); i++) {
             if(isDuplicateArgumentName(namedParameterList.getNamedParameters().get(i).getIdentifier()))
-                throw new RuntimeException("Identifier '" + namedParameterList.getNamedParameters().get(i).getIdentifier().toString() + "' of argument " + i + " is already in use.");
+                throw new FatalCompilerError(this.getLocatable(), "Identifier '" + namedParameterList.getNamedParameters().get(i).getIdentifier().toString() + "' of argument " + i + " is already in use.");
         }
 
         block.checkSemantics();
