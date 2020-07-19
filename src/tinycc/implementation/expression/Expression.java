@@ -1,6 +1,8 @@
 package tinycc.implementation.expression;
 
 import tinycc.diagnostic.Locatable;
+import tinycc.implementation.external.function.Function;
+import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 
@@ -65,9 +67,24 @@ public abstract class Expression {
 		return false;
 	}
 
+	public boolean isWrongCalledFunction() {
+		for(EnvironmentalDeclaration environmentalDeclaration : environmentalDeclarations) {
+			if(this instanceof PrimaryExpression) {
+				if(environmentalDeclaration.getIdentifier().toString().equals(toString())) {
+					if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void checkSemantics() {}
 
 	public abstract Type getType();
+
+	public abstract Type eval();
 
 	public abstract Expression clone();
 

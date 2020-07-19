@@ -1,7 +1,6 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.diagnostic.Location;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
@@ -63,6 +62,11 @@ public class CallExpression extends Expression {
     @Override
     public Type getType() {
         return functionReference.getType();
+    }
+
+    @Override
+    public Type eval() {
+        return null;
     }
 
     @Override

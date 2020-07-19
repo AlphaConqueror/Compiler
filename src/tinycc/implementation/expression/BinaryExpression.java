@@ -115,6 +115,12 @@ public class BinaryExpression extends Expression {
         if (!rule.getROperandClass().isAssignableFrom(secondExpression.getType().getClass()))
             throw new FatalCompilerError(secondExpression.getLocatable(), "Operand class does not correspond with the rules operand class. Right class = "
                     + rule.getLOperandClass().toString() + ", got class " + secondExpression.getType().getClass().toString() + ".");
+
+        if(firstExpression.isWrongCalledFunction())
+            throw new FatalCompilerError(firstExpression.getLocatable(), "The call '" + firstExpression.toString() + "' is not a correct function call.");
+
+        if(secondExpression.isWrongCalledFunction())
+            throw new FatalCompilerError(secondExpression.getLocatable(), "The call '" + secondExpression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {
@@ -143,6 +149,20 @@ public class BinaryExpression extends Expression {
             return firstExpression.getType();
 
         throw new RuntimeException("Unknown type: " + rule.getResultTypeClass().toString());
+    }
+
+    @Override
+    public Type eval() {
+        BinaryOperatorRule rule = getRule();
+
+        switch (rule) {
+            case MUL_INT_INT:
+                break;
+            default:
+                break;
+        }
+
+        return null;
     }
 
     @Override

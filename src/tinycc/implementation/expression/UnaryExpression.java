@@ -1,7 +1,6 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.diagnostic.Location;
 import tinycc.implementation.external.function.Function;
 import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Integer;
@@ -96,6 +95,9 @@ public class UnaryExpression extends Expression {
                 break;
         }
 
+        if(expression.isWrongCalledFunction())
+            throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
+
         if(unaryOperator == UnaryOperator.SIZE_OF && expression.isIdentifier()) {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
                 if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
@@ -139,6 +141,11 @@ public class UnaryExpression extends Expression {
             return new Pointer<>(expression.getType());
 
         throw new RuntimeException("Unknown type: " + rule.getResultTypeClass().toString());
+    }
+
+    @Override
+    public Type eval() {
+        return null;
     }
 
     @Override

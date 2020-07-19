@@ -48,11 +48,22 @@ public class ConditionalExpression extends Expression {
 
         if(!consequence.getType().equals(alternative.getType()))
             throw new FatalCompilerError(consequence.getLocatable(), "Consequence and alternative have different types.");
+
+        if(consequence.isWrongCalledFunction())
+            throw new FatalCompilerError(consequence.getLocatable(), "The call '" + consequence.toString() + "' is not a correct function call.");
+
+        if(alternative.isWrongCalledFunction())
+            throw new FatalCompilerError(alternative.getLocatable(), "The call '" + alternative.toString() + "' is not a correct function call.");
     }
 
     @Override
     public Type getType() {
         return consequence.getType();
+    }
+
+    @Override
+    public Type eval() {
+        return null;
     }
 
     @Override

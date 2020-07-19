@@ -2,8 +2,6 @@ package tinycc.implementation.statement;
 
 import prog2.tests.FatalCompilerError;
 import tinycc.implementation.expression.Expression;
-import tinycc.implementation.external.function.Function;
-import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Type;
 import tinycc.implementation.type.Void;
 import tinycc.implementation.utils.EnvironmentalDeclaration;

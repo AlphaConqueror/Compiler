@@ -1,8 +1,6 @@
 package tinycc.implementation.expression;
 
 import prog2.tests.FatalCompilerError;
-import tinycc.implementation.external.function.Function;
-import tinycc.implementation.external.function.FunctionDeclaration;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
 import tinycc.implementation.type.StringLiteral;
@@ -96,9 +94,7 @@ public class PrimaryExpression extends Expression {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
                 if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
                     identifierExists = true;
-
-                    if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
-                        throw new FatalCompilerError(this.getLocatable(), "The used identifier in the expression is not a correct function call.");
+                    break;
                 }
             }
 
@@ -131,6 +127,11 @@ public class PrimaryExpression extends Expression {
         if(hasExpression())
             return expression.getType();
 
+        return null;
+    }
+
+    @Override
+    public Type eval() {
         return null;
     }
 
