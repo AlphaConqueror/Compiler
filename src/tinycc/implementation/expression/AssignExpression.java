@@ -46,7 +46,7 @@ public class AssignExpression extends Expression {
         }
 
         if(right.isWrongCalledFunction())
-            throw new FatalCompilerError(right.getLocatable(), "The call '" + right.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(right.getLocatable(), "Assign: The call '" + right.toString() + "' is not a correct function call.");
 
         if(!left.isIdentifier())
             throw new FatalCompilerError(this.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");

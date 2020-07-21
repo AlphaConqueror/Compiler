@@ -42,12 +42,20 @@ public class AST implements ASTFactory {
 
     @Override
     public Statement createBreakStatement(Locatable loc) {
-        return null;
+        BreakStatement breakStatement = new BreakStatement();
+
+        breakStatement.setLocatable(loc);
+
+        return breakStatement;
     }
 
     @Override
     public Statement createContinueStatement(Locatable loc) {
-        return null;
+        ContinueStatement continueStatement = new ContinueStatement();
+
+        continueStatement.setLocatable(loc);
+
+        return continueStatement;
     }
 
     @Override

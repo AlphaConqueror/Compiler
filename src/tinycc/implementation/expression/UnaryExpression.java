@@ -104,7 +104,7 @@ public class UnaryExpression extends Expression {
         }
 
         if(expression.isWrongCalledFunction())
-            throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(expression.getLocatable(), "Unary: The call '" + expression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {

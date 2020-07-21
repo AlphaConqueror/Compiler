@@ -117,10 +117,10 @@ public class BinaryExpression extends Expression {
                     + rule.getLOperandClass().toString() + ", got class " + secondExpression.getType().getClass().toString() + ".");
 
         if(firstExpression.isWrongCalledFunction())
-            throw new FatalCompilerError(firstExpression.getLocatable(), "The call '" + firstExpression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(firstExpression.getLocatable(), "Binary 1: The call '" + firstExpression.toString() + "' is not a correct function call.");
 
         if(secondExpression.isWrongCalledFunction())
-            throw new FatalCompilerError(secondExpression.getLocatable(), "The call '" + secondExpression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(secondExpression.getLocatable(), "Binary 2: The call '" + secondExpression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {
