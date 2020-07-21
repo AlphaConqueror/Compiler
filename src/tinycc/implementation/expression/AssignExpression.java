@@ -39,7 +39,7 @@ public class AssignExpression extends Expression {
         right.checkSemantics();
 
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(left.toString())) {
                 if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
                     throw new FatalCompilerError(this.getLocatable(), "A function can not be redeclared.");
             }
@@ -51,7 +51,7 @@ public class AssignExpression extends Expression {
         if(!left.isIdentifier())
             throw new FatalCompilerError(this.getLocatable(), "The expression '" + left.toString() + "' is not assignable.");
 
-        if(!left.getType().toString().equals(right.getType().toString()))
+        if(!left.getType().equals(right.getType()))
             throw new FatalCompilerError(this.getLocatable(),
                     left.toString() + "(" + left.getType().toString() + ")" + " != " + right.toString() + "(" + right.getType().toString() + ")");
     }
@@ -64,7 +64,7 @@ public class AssignExpression extends Expression {
     @Override
     public Type eval() {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(left.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(left.toString())) {
                 if(environmentalDeclaration instanceof GlobalVariable)
                     ((GlobalVariable) environmentalDeclaration).setExpression(right);
                 else

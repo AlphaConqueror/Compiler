@@ -45,12 +45,12 @@ public class ReturnStatement extends Statement {
         ReturnInfo returnInfo;
 
         if(hasResult()) {
-            returnInfo = result.getType().toString().equals(type.toString()) ? new ReturnInfo(ReturnInfo.ReturnType.TRUE) : new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE);
+            returnInfo = result.getType().equals(type) ? new ReturnInfo(ReturnInfo.ReturnType.TRUE) : new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE);
 
             return returnInfo.setLocatable(this.getLocatable());
         }
 
-        if(type.toString().equals((new Void()).toString()))
+        if(type.getClass() == Void.class)
             return new ReturnInfo(ReturnInfo.ReturnType.NO_VALUE).setLocatable(this.getLocatable());
 
         return new ReturnInfo(ReturnInfo.ReturnType.FALSE_TYPE).setLocatable(this.getLocatable());

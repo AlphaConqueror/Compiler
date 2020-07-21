@@ -3,8 +3,7 @@ package tinycc.implementation.expression;
 import prog2.tests.FatalCompilerError;
 import tinycc.implementation.type.Character;
 import tinycc.implementation.type.Integer;
-import tinycc.implementation.type.StringLiteral;
-import tinycc.implementation.type.Type;
+import tinycc.implementation.type.*;
 import tinycc.implementation.utils.EnvironmentalDeclaration;
 import tinycc.implementation.utils.Identifier;
 
@@ -92,7 +91,7 @@ public class PrimaryExpression extends Expression {
             boolean identifierExists = false;
 
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-                if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+                if(environmentalDeclaration.getIdentifier().equals(identifier)) {
                     identifierExists = true;
                     break;
                 }
@@ -121,7 +120,7 @@ public class PrimaryExpression extends Expression {
                 return new StringLiteral();
         }
         if(hasStringLiteral())
-            return new StringLiteral();
+            return new Pointer<>(new Character());
         if(hasIntegerConstant())
             return new Integer();
         if(hasExpression())
@@ -137,7 +136,7 @@ public class PrimaryExpression extends Expression {
 
     private Type getDeclarationByIdentifier(Identifier identifier) {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.getIdentifier()))
+            if(environmentalDeclaration.getIdentifier().equals(identifier))
                 return environmentalDeclaration.getType();
         }
 

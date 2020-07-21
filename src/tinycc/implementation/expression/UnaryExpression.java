@@ -50,7 +50,7 @@ public class UnaryExpression extends Expression {
 
     private EnvironmentalDeclaration getDeclarationByIdentifier(String identifier) {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier))
+            if(environmentalDeclaration.getIdentifier().equals(identifier))
                 return environmentalDeclaration;
         }
 
@@ -69,8 +69,7 @@ public class UnaryExpression extends Expression {
         UnaryOperatorRule rule = getRule();
 
         if(rule == null)
-            throw new FatalCompilerError(this.getLocatable(),
-                    "Illegitimate unary operation '" + toString() + "'.");
+            throw new FatalCompilerError(this.getLocatable(), "Illegitimate unary operation '" + toString() + "'.");
 
         switch (rule.getAdditionalRule()) {
             case COMPLETE_TYPE_POINTER:
@@ -97,7 +96,7 @@ public class UnaryExpression extends Expression {
 
         if(unaryOperator == UnaryOperator.SIZE_OF && expression.isIdentifier()) {
             for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-                if(environmentalDeclaration.getIdentifier().toString().equals(expression.toString())) {
+                if(environmentalDeclaration.getIdentifier().equals(expression.toString())) {
                     if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
                         throw new FatalCompilerError(this.getLocatable(), "You can not get the size of a function.");
                 }

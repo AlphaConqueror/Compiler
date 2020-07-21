@@ -73,7 +73,7 @@ public class CallExpression extends Expression {
     public void checkSemantics() {
         boolean hasBeenDeclared = false;
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(functionReference.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(functionReference.toString())) {
                 hasBeenDeclared = true;
 
                 if (environmentalDeclaration instanceof Function) {
@@ -87,7 +87,7 @@ public class CallExpression extends Expression {
                                 + " Right amount = " + function.getNamedParameterList().getNamedParameters().size() + " args, got " + arguments.size() + " args.");
 
                     for(int i = 0; i < function.getNamedParameterList().getNamedParameters().size(); i++) {
-                        if(!function.getNamedParameterList().getNamedParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
+                        if(!function.getNamedParameterList().getNamedParameters().get(i).getType().equals(arguments.get(i).getType()))
                             throw new FatalCompilerError(this.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
                                     + " Right type = " + function.getNamedParameterList().getNamedParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");
@@ -103,7 +103,7 @@ public class CallExpression extends Expression {
                                 + " Right amount = " + functionDeclaration.getParameterList().getParameters().size() + " args, got " + arguments.size() + " args.");
 
                     for(int i = 0; i < functionDeclaration.getParameterList().getParameters().size(); i++) {
-                        if(!functionDeclaration.getParameterList().getParameters().get(i).getType().toString().equals(arguments.get(i).getType().toString()))
+                        if(!functionDeclaration.getParameterList().getParameters().get(i).getType().equals(arguments.get(i).getType()))
                             throw new FatalCompilerError(this.getLocatable(), "Argument " + i + "'s type does not match the declared arguments type."
                                     + "Right type = " + functionDeclaration.getParameterList().getParameters().get(i).getType().toString()
                                     + ", got type " + arguments.get(i).getType().toString() + ".");

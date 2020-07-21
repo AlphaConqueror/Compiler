@@ -50,15 +50,11 @@ public class Pointer<T extends Type> extends Scalar {
         if (this == obj)
             return true;
 
-        System.out.println(getClass().toString() + " ~ " + obj.getClass().toString());
-
         if (obj == null || getClass() != obj.getClass())
             return false;
 
         Pointer p = (Pointer) obj;
 
-        System.out.println(toString() + " ~ " + p.toString());
-
-        return p.getType().getClass() == type.getClass();
+        return p.getType().equals(type);
     }
 }

@@ -47,20 +47,6 @@ public abstract class Expression {
 		updateEnvironment(environmentalDeclarations);
 	}
 
-	//DEBUG
-	public String getPrintedEnvironment() {
-		String out = "";
-
-		for(int i = 0; i < environmentalDeclarations.size(); i++) {
-			out += environmentalDeclarations.get(i).getIdentifier();
-
-			if(i < environmentalDeclarations.size() - 1)
-				out += ",";
-		}
-
-		return "[" + out + "]";
-	}
-
 	public void updateEnvironment(Collection<EnvironmentalDeclaration> environmentalDeclarations) {}
 
 	public boolean isIdentifier() {
@@ -70,7 +56,7 @@ public abstract class Expression {
 	public boolean isWrongCalledFunction() {
 		for(EnvironmentalDeclaration environmentalDeclaration : environmentalDeclarations) {
 			if(this instanceof PrimaryExpression) {
-				if(environmentalDeclaration.getIdentifier().toString().equals(toString())) {
+				if(environmentalDeclaration.getIdentifier().equals(toString())) {
 					if(environmentalDeclaration instanceof Function || environmentalDeclaration instanceof FunctionDeclaration)
 						return true;
 				}

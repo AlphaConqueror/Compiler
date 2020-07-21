@@ -43,7 +43,7 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
-            if(!(environmentalDeclaration instanceof FunctionDeclaration) && environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+            if(!(environmentalDeclaration instanceof FunctionDeclaration) && environmentalDeclaration.getIdentifier().equals(identifier.toString())) {
                 useCounter++;
 
                 if(useCounter == 2)
@@ -58,7 +58,7 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : block.getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
                 useCounter++;
 
                 if(useCounter == 2)
@@ -109,13 +109,13 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
 
         ReturnInfo returnInfo = block.getReturnInfo(returnType);
 
-        if(returnType.toString().equals((new Void()).toString())  && returnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE)
+        if(returnType.getClass() == Void.class && returnInfo.getReturnType() == ReturnInfo.ReturnType.TRUE)
             throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement in void type function.");
         if(returnInfo.getReturnType() == ReturnInfo.ReturnType.FALSE_TYPE)
             throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement with the wrong type.");
-        if(!returnType.toString().equals((new Void()).toString()) && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE)
+        if(returnType.getClass() != Void.class && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE)
             throw new FatalCompilerError(returnInfo.getLocatable(), "Detected return statement without value.");
-        if(!returnType.toString().equals((new Void()).toString()) && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
+        if(returnType.getClass() != Void.class && returnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
             throw new FatalCompilerError(block.getLocatable(), "No return statement detected.");
     }
 

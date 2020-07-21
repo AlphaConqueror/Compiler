@@ -34,7 +34,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
                 useCounter++;
 
                 if(useCounter == 2)
@@ -86,7 +86,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         if(hasExpression()) {
             expression.checkSemantics();
 
-            if(!type.toString().equals(expression.getType().toString()))
+            if(!type.equals(expression.getType()))
                 throw new FatalCompilerError(expression.getLocatable(), type.toString() + " != " + expression.toString() + "(" + expression.getType().toString() + ")");
 
             if(expression.isWrongCalledFunction())

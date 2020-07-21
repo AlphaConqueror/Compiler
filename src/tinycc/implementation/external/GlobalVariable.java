@@ -65,7 +65,7 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
         int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
                 useCounter++;
 
                 if(useCounter == 2)
@@ -90,7 +90,7 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
         if(hasExpression()) {
             expression.checkSemantics();
 
-            if(type.getClass() != expression.getType().getClass())
+            if(!type.equals(expression.getType()))
                 throw new FatalCompilerError(this.getLocatable(), "The declaration type and the expression type are not equal.");
 
             if(expression.isWrongCalledFunction())

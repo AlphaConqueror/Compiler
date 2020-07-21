@@ -35,7 +35,7 @@ public class BinaryExpression extends Expression {
 
     public BinaryOperatorRule getRule() {
         for(BinaryOperatorRule rule : BinaryOperatorRule.values()) {
-            if(rule.getBinaryOperator().equals(binaryOperator)) {
+            if(rule.getBinaryOperator() == binaryOperator) {
                 if(rule.getLOperandClass().isAssignableFrom(firstExpression.getType().getClass()) && rule.getROperandClass().isAssignableFrom(secondExpression.getType().getClass()))
                     return rule;
             }
@@ -95,11 +95,11 @@ public class BinaryExpression extends Expression {
                     if (!isIdenticalPointerType(pointer1, pointer2))
                         throw new FatalCompilerError(this.getLocatable(), "Pointers do not have the same type.");
 
-                    if(pointer1.getType().getClass() != (new Void()).getClass() && pointer1.getInnerType() != null)
+                    if(!pointer1.getType().equals(new Void()) && pointer1.getInnerType() != null)
                         throw new FatalCompilerError(firstExpression.getLocatable(),
                                 "Binary expression: First expression pointer does not equal a void pointer, nor a null pointer.");
 
-                    if(pointer2.getType().getClass() != (new Void()).getClass() && pointer2.getInnerType() != null)
+                    if(pointer2.getType().equals(new Void()) && pointer2.getInnerType() != null)
                         throw new FatalCompilerError(secondExpression.getLocatable(),
                                 "Binary expression: Second expression pointer does not equal a void pointer, nor a null pointer.");
                 }

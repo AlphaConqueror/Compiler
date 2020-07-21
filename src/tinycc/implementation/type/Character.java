@@ -1,5 +1,7 @@
 package tinycc.implementation.type;
 
+import java.util.Objects;
+
 public class Character extends WholeNumber {
 
     private final char character;
@@ -34,6 +36,6 @@ public class Character extends WholeNumber {
 
         Character c = (Character) obj;
 
-        return c.getCharacter() == character;
+        return Objects.equals(character, c.getCharacter());
     }
 }

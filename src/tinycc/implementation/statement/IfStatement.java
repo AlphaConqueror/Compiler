@@ -80,7 +80,7 @@ public class IfStatement extends Statement {
         if(consequenceReturnInfo.getReturnType() == alternativeReturnInfo.getReturnType())
             return consequenceReturnInfo;
 
-        if(type.toString().equals((new Void()).toString())) {
+        if(type.getClass() == Void.class) {
             if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE || alternativeReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_VALUE) {
                 if(consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN || consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN)
                     return consequenceReturnInfo.getReturnType() == ReturnInfo.ReturnType.NO_RETURN ? consequenceReturnInfo : alternativeReturnInfo;

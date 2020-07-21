@@ -31,7 +31,7 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
         int useCounter = 0;
 
         for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().toString().equals(identifier.toString())) {
+            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
                 useCounter++;
 
                 if(useCounter == 2)
