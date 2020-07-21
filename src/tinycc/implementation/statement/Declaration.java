@@ -87,7 +87,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
             expression.checkSemantics();
 
             if(!type.equals(expression.getType()))
-                throw new FatalCompilerError(this.getLocatable(), type.toString() + " != " + expression.toString() + "(" + expression.getType().toString() + ")");
+                throw new FatalCompilerError(this.getLocatable(), "Declaration: " + type.toString() + " != " + expression.toString() + "(" + expression.getType().toString() + ")");
 
             if(expression.isWrongCalledFunction())
                 throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
