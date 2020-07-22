@@ -76,7 +76,7 @@ public class UnaryExpression extends Expression {
                 if(expression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) expression.getType()))
                         throw new FatalCompilerError(this.getLocatable(),
-                                "Unary expression: Pointer does not point to a complete type. Got type " + ((Pointer) expression.getType()).getType() + ".");
+                                "Pointer does not point to a complete type. Got type " + ((Pointer) expression.getType()).getType() + ".");
                 }
                 break;
             case COMPLETE_TYPE:
@@ -104,7 +104,7 @@ public class UnaryExpression extends Expression {
         }
 
         if(expression.isWrongCalledFunction())
-            throw new FatalCompilerError(expression.getLocatable(), "Unary: The call '" + expression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {

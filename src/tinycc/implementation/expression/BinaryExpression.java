@@ -64,12 +64,12 @@ public class BinaryExpression extends Expression {
             case COMPLETE_TYPE_POINTER:
                 if(firstExpression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) firstExpression.getType()))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Binary expression: First expression pointer does not point to a complete type.");
+                        throw new FatalCompilerError(firstExpression.getLocatable(), "First expression pointer does not point to a complete type.");
                 }
 
                 if(secondExpression.getType() instanceof Pointer) {
                     if(!pointsToCompleteType((Pointer) secondExpression.getType()))
-                        throw new FatalCompilerError(secondExpression.getLocatable(), "Binary expression: Second expression pointer does not point to a complete type.");
+                        throw new FatalCompilerError(secondExpression.getLocatable(), "Second expression pointer does not point to a complete type.");
                 }
                 break;
             case IDENTICAL_POINTER_CT:
@@ -81,10 +81,10 @@ public class BinaryExpression extends Expression {
                         throw new FatalCompilerError(this.getLocatable(), "Pointers do not have the same type.");
 
                     if(!pointsToCompleteType(pointer1))
-                        throw new FatalCompilerError(firstExpression.getLocatable(), "Binary expression: First expression pointer does not point to a complete type.");
+                        throw new FatalCompilerError(firstExpression.getLocatable(), "First expression pointer does not point to a complete type.");
 
                     if(!pointsToCompleteType(pointer2))
-                        throw new FatalCompilerError(secondExpression.getLocatable(), "Binary expression: Second expression pointer does not point to a complete type.");
+                        throw new FatalCompilerError(secondExpression.getLocatable(), "Second expression pointer does not point to a complete type.");
                 }
                 break;
             case IP_VOID_NULL_POINTER:
@@ -97,11 +97,11 @@ public class BinaryExpression extends Expression {
 
                     if(!pointer1.getType().equals(new Void()) && pointer1.getInnerType() != null)
                         throw new FatalCompilerError(firstExpression.getLocatable(),
-                                "Binary expression: First expression pointer does not equal a void pointer, nor a null pointer.");
+                                "First expression pointer does not equal a void pointer, nor a null pointer.");
 
                     if(pointer2.getType().equals(new Void()) && pointer2.getInnerType() != null)
                         throw new FatalCompilerError(secondExpression.getLocatable(),
-                                "Binary expression: Second expression pointer does not equal a void pointer, nor a null pointer.");
+                                "Second expression pointer does not equal a void pointer, nor a null pointer.");
                 }
                 break;
             default:
@@ -117,10 +117,10 @@ public class BinaryExpression extends Expression {
                     + rule.getLOperandClass().toString() + ", got class " + secondExpression.getType().getClass().toString() + ".");
 
         if(firstExpression.isWrongCalledFunction())
-            throw new FatalCompilerError(this.getLocatable(), "Binary 1: The call '" + firstExpression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(this.getLocatable(), "The call '" + firstExpression.toString() + "' is not a correct function call.");
 
         if(secondExpression.isWrongCalledFunction())
-            throw new FatalCompilerError(this.getLocatable(), "Binary 2: The call '" + secondExpression.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(this.getLocatable(), "The call '" + secondExpression.toString() + "' is not a correct function call.");
     }
 
     private boolean pointsToCompleteType(Pointer pointer) {

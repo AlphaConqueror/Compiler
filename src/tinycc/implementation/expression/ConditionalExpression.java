@@ -50,10 +50,10 @@ public class ConditionalExpression extends Expression {
             throw new FatalCompilerError(consequence.getLocatable(), "Consequence and alternative have different types.");
 
         if(consequence.isWrongCalledFunction())
-            throw new FatalCompilerError(consequence.getLocatable(), "Conditional con: The call '" + consequence.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(consequence.getLocatable(), "The call '" + consequence.toString() + "' is not a correct function call.");
 
         if(alternative.isWrongCalledFunction())
-            throw new FatalCompilerError(alternative.getLocatable(), "Conditional alt: The call '" + alternative.toString() + "' is not a correct function call.");
+            throw new FatalCompilerError(alternative.getLocatable(), "The call '" + alternative.toString() + "' is not a correct function call.");
     }
 
     @Override
