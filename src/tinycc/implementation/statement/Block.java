@@ -14,6 +14,13 @@ public class Block extends Statement {
 
     public Block() {}
 
+    /**
+     * Adds a {@link Statement} to the {@link List} of statements in the block.
+     *
+     * @param statement The statement to be added.
+     *
+     * @return This instance.
+     */
     public Block addStatement(Statement statement) {
         statement.addEnvironmentalDeclarations(statements.size() == 0 ? this.getEnvironmentalDeclarations() : statements.get(statements.size() - 1).getEnvironmentalDeclarations());
         statements.add(statement);
@@ -21,6 +28,13 @@ public class Block extends Statement {
         return this;
     }
 
+    /**
+     * Adds all {@link Statement}s in the {@link Collection} to the {@link List} of statements in the block.
+     *
+     * @param statements The collection of statements to be added.
+     *
+     * @return This instance.
+     */
     public Block addStatements(Collection<Statement> statements) {
         for(Statement statement : statements) {
             addStatement(statement);

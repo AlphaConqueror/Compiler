@@ -30,6 +30,13 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
         this.addEnvironmentalDeclaration(this);
     }
 
+    /**
+     * Checks if the declaration is present twice after adding the it to the environment.
+     *
+     * @param identifier The identifier to be checked.
+     *
+     * @return true, if present twice, false, if otherwise.
+     */
     private boolean isDuplicate(Identifier identifier) {
         int useCounter = 0;
 
@@ -76,6 +83,7 @@ public class Declaration extends Statement implements EnvironmentalDeclaration {
             expression.addEnvironmentalDeclarations(environmentalDeclarations);
     }
 
+    @Override
     public void checkSemantics() {
         if(type instanceof Void)
             throw new FatalCompilerError(this.getLocatable(), "The declaration type is void.");
