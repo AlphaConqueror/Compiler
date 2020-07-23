@@ -33,6 +33,11 @@ public class BinaryExpression extends Expression {
         return secondExpression;
     }
 
+    /**
+     * Gets the {@link BinaryOperatorRule} corresponding to the {@link BinaryOperator} and the sub expression types.
+     *
+     * @return The binary operator rule.
+     */
     public BinaryOperatorRule getRule() {
         for(BinaryOperatorRule rule : BinaryOperatorRule.values()) {
             if(rule.getBinaryOperator() == binaryOperator) {
@@ -123,6 +128,13 @@ public class BinaryExpression extends Expression {
             throw new FatalCompilerError(this.getLocatable(), "The call '" + secondExpression.toString() + "' is not a correct function call.");
     }
 
+    /**
+     * Checks if the {@link Pointer} points to a {@link WholeNumber}.
+     *
+     * @param pointer The pointer to be checked.
+     *
+     * @return true, if the pointer points to a complete type, false, if otherwise.
+     */
     private boolean pointsToCompleteType(Pointer pointer) {
         Type innerType = pointer.getInnerType();
 
@@ -132,6 +144,14 @@ public class BinaryExpression extends Expression {
         return true;
     }
 
+    /**
+     * Checks if 2 {@link Pointer}s point to the identical {@link Type}.
+     *
+     * @param pointer1 The first pointer.
+     * @param pointer2 The second pointer.
+     *
+     * @return true, if the 2 pointers are pointing to the identical type, false if otherwise.
+     */
     private boolean isIdenticalPointerType(Pointer pointer1, Pointer pointer2) {
         if(!pointer1.getInnerType().equals(pointer2.getInnerType()))
             return false;

@@ -14,12 +14,26 @@ public class NamedParameterList {
         addNamedParameters(namedParameterList);
     }
 
+    /**
+     * Adds a named parameter to the {@link List} of named parameters.
+     *
+     * @param namedParameter The named parameter to be added.
+     *
+     * @return This instance.
+     */
     public NamedParameterList addNamedParameter(NamedParameter namedParameter) {
         namedParameters.add(namedParameter);
 
         return this;
     }
 
+    /**
+     * Adds all named parameters in the {@link Collection} to the {@link List} of named parameters.
+     *
+     * @param namedParameters The collection of named parameters to be added.
+     *
+     * @return This instance.
+     */
     public NamedParameterList addNamedParameters(Collection<NamedParameter> namedParameters) {
         for(NamedParameter namedParameter : namedParameters)
             addNamedParameter(namedParameter);

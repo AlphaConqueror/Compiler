@@ -15,6 +15,13 @@ public class TranslationUnit {
         addExternalDeclaration(externalDeclaration);
     }
 
+    /**
+     * Adds a {@link ExternalDeclaration} to the {@link List} of external declarations.
+     *
+     * @param externalDeclaration The external declaration to be added.
+     *
+     * @return This instance.
+     */
     public TranslationUnit addExternalDeclaration(ExternalDeclaration externalDeclaration) {
         externalDeclarations.add(externalDeclaration);
 
@@ -25,26 +32,21 @@ public class TranslationUnit {
         return externalDeclarations;
     }
 
+    /**
+     * Gets a {@link List} of {@link EnvironmentalDeclaration}s of the last added {@link ExternalDeclaration}
+     * or an empty list if not available.
+     *
+     * @return A list of environmental declarations of the last added external declaration.
+     */
     public List<EnvironmentalDeclaration> getLastEnvironmentalDeclarations() {
         return externalDeclarations.size() > 0 ? externalDeclarations.get(externalDeclarations.size() - 1).getEnvironmentalDeclarations() : new ArrayList<>();
     }
 
+    /**
+     * Checks the semantics recursively for all {@link ExternalDeclaration}s.
+     */
     public void checkSemantics() {
         for(ExternalDeclaration externalDeclaration : externalDeclarations)
             externalDeclaration.checkSemantics();
-    }
-
-    @Override
-    public String toString() {
-        String out = "";
-
-        for(int i = 0; i < externalDeclarations.size(); i++) {
-            out += externalDeclarations.get(i);
-
-            if(i < externalDeclarations.size() - 1)
-                out += ", ";
-        }
-
-        return "TranslationUnit(" + out + ")";
     }
 }

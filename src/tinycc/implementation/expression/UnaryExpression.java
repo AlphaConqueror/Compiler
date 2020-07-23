@@ -37,6 +37,11 @@ public class UnaryExpression extends Expression {
         return expression;
     }
 
+    /**
+     * Gets the {@link UnaryOperatorRule} corresponding to the {@link UnaryOperator} and the sub expression type.
+     *
+     * @return The unary operator rule.
+     */
     public UnaryOperatorRule getRule() {
         for(UnaryOperatorRule rule : UnaryOperatorRule.values()) {
             if(rule.getUnaryOperator().equals(unaryOperator)) {
@@ -48,6 +53,13 @@ public class UnaryExpression extends Expression {
         return null;
     }
 
+    /**
+     * Gets the {@link EnvironmentalDeclaration} by the {@link tinycc.implementation.utils.Identifier}.
+     *
+     * @param identifier The identifier used to get the environmental declaration.
+     *
+     * @return The environmental declaration.
+     */
     private EnvironmentalDeclaration getDeclarationByIdentifier(String identifier) {
         for(EnvironmentalDeclaration environmentalDeclaration : this.getEnvironmentalDeclarations()) {
             if(environmentalDeclaration.getIdentifier().equals(identifier))
@@ -107,6 +119,13 @@ public class UnaryExpression extends Expression {
             throw new FatalCompilerError(expression.getLocatable(), "The call '" + expression.toString() + "' is not a correct function call.");
     }
 
+    /**
+     * Checks if the {@link Pointer} points to a {@link WholeNumber}.
+     *
+     * @param pointer The pointer to be checked.
+     *
+     * @return true, if the pointer points to a complete type, false, if otherwise.
+     */
     private boolean pointsToCompleteType(Pointer pointer) {
         Type innerType = pointer.getInnerType();
 

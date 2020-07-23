@@ -69,8 +69,6 @@ public class Compiler {
 		AST ast = ((AST) astFactory);
 		TranslationUnit translationUnit = ast.getTranslationUnit();
 
-		generateCode(System.out);
-
 		translationUnit.checkSemantics();
 	}
 

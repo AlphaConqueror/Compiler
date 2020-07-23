@@ -27,6 +27,13 @@ public class FunctionDeclaration extends ExternalDeclaration implements Environm
         addEnvironmentalDeclaration(this);
     }
 
+    /**
+     * Checks if the function declaration is present twice after adding the function to the environment.
+     *
+     * @param identifier The identifier to be checked.
+     *
+     * @return true, if present twice, false, if otherwise.
+     */
     private boolean isDuplicate(Identifier identifier) {
         int useCounter = 0;
 

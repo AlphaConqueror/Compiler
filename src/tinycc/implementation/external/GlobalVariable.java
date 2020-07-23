@@ -18,23 +18,7 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
         this.type = type;
         this.identifier = identifier;
 
-        checkForDuplicate(this.identifier);
-
         addEnvironmentalDeclaration(this);
-    }
-
-    private void checkForDuplicate(Identifier identifier) {
-        boolean isUsed = false;
-
-        for(EnvironmentalDeclaration environmentalDeclaration : getEnvironmentalDeclarations()) {
-            if(environmentalDeclaration.getIdentifier().equals(identifier)) {
-                isUsed = true;
-                break;
-            }
-        }
-
-        if(isUsed)
-            throw new RuntimeException("Identifier '" + identifier.toString() + "' is already in use.");
     }
 
     @Override
@@ -61,6 +45,13 @@ public class GlobalVariable extends ExternalDeclaration implements Environmental
         checkSemantics();
     }
 
+    /**
+     * Checks if the global variable is present twice after adding the it to the environment.
+     *
+     * @param identifier The identifier to be checked.
+     *
+     * @return true, if present twice, false, if otherwise.
+     */
     private boolean isDuplicate(Identifier identifier) {
         int useCounter = 0;
 

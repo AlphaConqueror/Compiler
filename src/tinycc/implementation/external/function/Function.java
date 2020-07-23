@@ -39,6 +39,13 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
             this.block.addEnvironmentalDeclaration(new Declaration(namedParameter.getType(), namedParameter.getIdentifier()));
     }
 
+    /**
+     * Checks if the function is present twice after adding the function to the environment.
+     *
+     * @param identifier The identifier to be checked.
+     *
+     * @return true, if present twice, false, if otherwise.
+     */
     private boolean isDuplicate(Identifier identifier) {
         int useCounter = 0;
 
@@ -54,6 +61,13 @@ public class Function extends ExternalDeclaration implements EnvironmentalDeclar
         return false;
     }
 
+    /**
+     * Checks if the {@link Identifier} is present twice after adding the function to the environment.
+     *
+     * @param identifier The identifier to be checked.
+     *
+     * @return true, if present twice, false, if otherwise.
+     */
     private boolean isDuplicateArgumentName(Identifier identifier) {
         int useCounter = 0;
 

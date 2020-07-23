@@ -18,12 +18,26 @@ public class ParameterList {
         addParameters(parameters);
     }
 
+    /**
+     * Adds a parameter to the {@link List} of parameters.
+     *
+     * @param parameter The parameter to be added.
+     *
+     * @return This instance.
+     */
     public ParameterList addParameter(Parameter parameter) {
         parameters.add(parameter);
 
         return this;
     }
 
+    /**
+     * Adds all parameters in the {@link Collection} to the {@link List} of parameters.
+     *
+     * @param parameters The collection of parameters to be added.
+     *
+     * @return This instance.
+     */
     public ParameterList addParameters(Collection<Parameter> parameters) {
         for(Parameter parameter : parameters)
             addParameter(parameter);
